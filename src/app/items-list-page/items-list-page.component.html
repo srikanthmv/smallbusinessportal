@@ -1,0 +1,118 @@
+<div class="container mt-3">
+    <div class="columns">
+        <div class="column">
+            <div class="card">
+                <div class="card-content">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Category</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field is-narrow">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select [ngModel]="itemCategoryName">
+                                            <option [value]="''">--select--</option>
+                                            <option [value]="category.slug"
+                                                    *ngFor="let category of (commonService.allCategories | async)">
+                                                {{ category.name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-3">
+    <div class="columns">
+        <div class="column">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-4">{{'Item Name'}}</p>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item has-text-weight-bold">Price: Rs 200/kg</p>
+                        <a href="#" class="card-footer-item"><button class="button is-primary">
+                            <ion-icon name="star-outline"></ion-icon> INTERESTED</button></a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-4">{{'Item Name'}}</p>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item has-text-weight-bold">Price: Rs 200/kg</p>
+                        <a href="#" class="card-footer-item"><button class="button is-primary">
+                            <ion-icon name="star-outline"></ion-icon> INTERESTED</button></a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-4">{{'Item Name'}}</p>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item has-text-weight-bold">Price: Rs 200/kg</p>
+                        <a href="#" class="card-footer-item"><button class="button is-primary">
+                            <ion-icon name="star-outline"></ion-icon> INTERESTED</button></a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-4">{{'Item Name'}}</p>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item has-text-weight-bold">Price: Rs 200/kg</p>
+                        <a href="#" class="card-footer-item"><button class="button is-primary">
+                            <ion-icon name="star-outline"></ion-icon> INTERESTED</button></a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

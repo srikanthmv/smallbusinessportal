@@ -1,0 +1,151 @@
+<div class="container mt-6 ">
+  <div class="columns is-mobile mr-2 ml-2">
+    <div class="column">
+    </div>
+    <div class="column is-one-quarter">
+      <button class="button is-primary is-pulled-right"><ion-icon name="add-circle"></ion-icon> ADD ITEM</button>
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column">
+      <div class="card has-background-light">
+        <div class="card-header">
+          <div class="card-header-title">
+            <span class="icon">
+              <ion-icon name="filter-outline"></ion-icon>
+            </span>
+            <span class="card-header-title">Dashboard Filters </span>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="field is-horizontal">
+            <div class="field-body">
+              <div class="field">
+                <p class="control is-expanded has-icons-left">
+                  <input class="input is-medium" type="text" placeholder="Search item by name">
+                  <span class="icon is-small is-left">
+                    <ion-icon name="accessibility-outline"></ion-icon>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select class="input is-medium">
+                            <option [value]="''">--select category--</option>
+                            <option [value]="category.slug"
+                                    *ngFor="let category of (commonService.allCategories | async)">
+                                {{ category.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+              <div class="field is-grouped">
+                <p class="control">
+                  <a class="button is-medium is-primary">
+                    Search
+                  </a>
+                </p>
+                <p class="control">
+                  <a class="button is-medium is-info">
+                    Reset
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="notification is-primary">
+    <p class="subtitle">All Items</p>
+  </div>
+  <div class="columns is-mobile">
+    <div class="column">
+      <div class="tile is-ancestor">
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+            <p class="title">Item Name</p>
+            <p class="subtitle">Category: category name</p>
+            <p class="subtitle">Status: Active</p>
+            <p class="has-text-weight-bold">Price: 200rs</p>
+            <div class="field is-grouped p-3">
+              <p class="control">
+                <button class="button is-link">
+                  <ion-icon name="create-outline"></ion-icon> Edit
+                </button>
+              </p>
+              <p class="control">
+                <button class="button is-primary">
+                  <ion-icon name="toggle"></ion-icon> Mark as active
+                </button>
+              </p>
+            </div>
+          </article>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+            <p class="title">Item Name</p>
+            <p class="subtitle">Category: category name</p>
+            <p class="subtitle">Status: Active</p>
+            <p class="has-text-weight-bold">Price: 200rs</p>
+            <div class="field is-grouped p-3">
+              <p class="control">
+                <button class="button is-link">
+                  <ion-icon name="create-outline"></ion-icon> Edit
+                </button>
+              </p>
+              <p class="control">
+                <button class="button is-primary">
+                  <ion-icon name="toggle"></ion-icon> Mark as active
+                </button>
+              </p>
+            </div>
+          </article>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+            <p class="title">Item Name</p>
+            <p class="subtitle">Category: category name</p>
+            <p class="subtitle">Status: Active</p>
+            <p class="has-text-weight-bold">Price: 200rs</p>
+            <div class="field is-grouped p-3">
+              <p class="control">
+                <button class="button is-link">
+                  <ion-icon name="create-outline"></ion-icon> Edit
+                </button>
+              </p>
+              <p class="control">
+                <button class="button is-primary">
+                  <ion-icon name="toggle"></ion-icon> Mark as active
+                </button>
+              </p>
+            </div>
+          </article>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+            <p class="title">Item Name</p>
+            <p class="subtitle">Category: category name</p>
+            <p class="subtitle">Status: Active</p>
+            <p class="has-text-weight-bold">Price: 200rs</p>
+            <div class="field is-grouped p-3">
+              <p class="control">
+                <button class="button is-link">
+                  <ion-icon name="create-outline"></ion-icon> Edit
+                </button>
+              </p>
+              <p class="control">
+                <button class="button is-primary">
+                  <ion-icon name="toggle"></ion-icon> Mark as active
+                </button>
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

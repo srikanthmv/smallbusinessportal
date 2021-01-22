@@ -31,9 +31,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/bulma/css/bulma.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/ionicons/dist/ionicons/ionicons.esm.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -94,7 +97,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/bulma/css/bulma.css"
             ],
             "scripts": []
           }

@@ -1,0 +1,65 @@
+<nav class="navbar af-navbar" role="navigation" aria-label="main navigation" *ngIf="(commonService.allCategories | async) as categoriesList">
+    <div class="navbar-brand">
+        <a class="navbar-item navbar-brand-block" [routerLink]="'/'">
+            <img src="assets/brand.jpg" width="112" height="112" style="max-height: 10rem;">
+        </a>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-end">
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    <span class="icon">
+                        <i class="categories-icon"></i>
+                    </span>
+                    <span>Categories</span>
+                </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" [routerLink]="['/items-list', category.slug]"
+                       *ngFor="let category of categoriesList">
+                        {{category.name}}
+                    </a>
+                </div>
+            </div>
+            <a class="navbar-item" routerLink="/offers">
+                <span class="icon">
+                    <i class="offers-icon"></i>
+                </span>
+                <span> Offer Zone </span>
+            </a>
+            <a class="navbar-item">
+                <span class="icon">
+                    <i class="buy-sweets-icon"></i>
+                </span>
+                <span> Buy Sweets </span>
+            </a>
+            <a class="navbar-item">
+                 <span class="icon">
+                    <i class="contact-us-icon"></i>
+                </span>
+                <span> Contact Us </span>
+            </a>
+            <div class="navbar-item">
+                follow us on
+            </div>
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="icon">
+                        <i class="facebook-follow-icon"></i>
+                    </a>
+                    <a class="icon">
+                        <i class="twitter-follow-icon"></i>
+                    </a>
+                    <a class="icon">
+                        <i class="insta-follow-icon"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
