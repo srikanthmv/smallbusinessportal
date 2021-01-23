@@ -8,12 +8,15 @@ import { LoginAuthGuardCheck } from 'src/app/guards/login-auth-check.guard';
 import { AuthTokenCheckGuard } from 'src/app/guards/auth-token-check.guard';
 import { ItemsListComponent } from './items-list/items-list.component';
 import { AdminComponent } from './admin.component';
+import { AddItemComponent } from './add-item/add-item.component';
+import { StoreTasksComponent } from './store-tasks/store-tasks.component';
 
 const routes: Routes = [
     {path: '', component: AdminComponent,
     children: [
       {path: 'dashboard', component: DashboardComponent},
-      {path: 'items-list', component: ItemsListComponent}
+      {path: 'items-list', component: ItemsListComponent},
+      {path: 'store-action', component: StoreTasksComponent}
     ]},
     {path: 'login', component: LoginComponent}
 ];

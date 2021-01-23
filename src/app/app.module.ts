@@ -17,6 +17,7 @@ import {environment} from '../environments/environment';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { DefaultComponent } from './_layouts/default/default.component';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { DefaultComponent } from './_layouts/default/default.component';
         FormsModule,
         ReactiveFormsModule
     ],
-  providers: [],
+  providers: [AngularFireStorage],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../services/authentication.service';
 import {CommonService} from '../services/common.service';
 
 @Component({
@@ -9,9 +10,11 @@ import {CommonService} from '../services/common.service';
   ]
 })
 export class HeaderComponent implements OnInit {
-  constructor(public commonService: CommonService) { }
+  userLoggedIn: boolean | undefined;
+  constructor(public commonService: CommonService, private authService: AuthenticationService) { }
 
   ngOnInit(): void {
+    this.userLoggedIn = this.authService.isUserLoggedIn();
   }
 
 }

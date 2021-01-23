@@ -3,7 +3,8 @@
     <div class="column">
     </div>
     <div class="column is-one-quarter">
-      <button class="button is-primary is-pulled-right"><ion-icon name="add-circle"></ion-icon> ADD ITEM</button>
+      <button class="button is-primary is-pulled-right modal-button" [routerLink]="['/admin/store-action']"
+      [queryParams]="{module: 'item', action: 'add'}"><ion-icon name="add-circle"></ion-icon> ADD ITEM</button>
     </div>
   </div>
   <div class="columns">
@@ -24,7 +25,7 @@
                 <p class="control is-expanded has-icons-left">
                   <input class="input is-medium" type="text" placeholder="Search item by name">
                   <span class="icon is-small is-left">
-                    <ion-icon name="accessibility-outline"></ion-icon>
+                    <ion-icon name="pricetag-outline"></ion-icon>
                   </span>
                 </p>
               </div>
@@ -59,7 +60,7 @@
       </div>
     </div>
   </div>
-  <div class="notification is-primary">
+  <div class="notification is-light">
     <p class="subtitle">All Items</p>
   </div>
   <div class="columns is-mobile">
@@ -146,6 +147,22 @@
           </article>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="modal" id="add-item-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Modal title</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <!-- Content ... -->
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success">Save changes</button>
+        <button class="button">Cancel</button>
+      </footer>
     </div>
   </div>
 </div>

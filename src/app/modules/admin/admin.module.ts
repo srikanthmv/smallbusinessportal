@@ -8,6 +8,8 @@ import { FeedbackBoardComponent } from './feedback-board/feedback-board.componen
 import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { AdminRoutes } from './admin.routes';
 import { AdminComponent } from './admin.component';
+import { AddItemComponent } from './add-item/add-item.component';
+import { StoreTasksComponent } from './store-tasks/store-tasks.component';
 
 
 
@@ -18,7 +20,9 @@ import { AdminComponent } from './admin.component';
     OffersListComponent,
     FeedbackBoardComponent,
     AdminHeaderComponent,
-    AdminComponent],
+    AdminComponent,
+    AddItemComponent,
+    StoreTasksComponent],
   imports: [
     CommonModule,
     AdminRoutes

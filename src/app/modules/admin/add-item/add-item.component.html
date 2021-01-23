@@ -1,0 +1,127 @@
+<div class="card">
+  <div class="card-header has-background-primary is-primary">
+     <h2 class="card-header-title has-text-white">ADD ITEM</h2>
+   </div>
+   <div class="card-content">
+     <div class="field">
+       <label class="label">Item Name</label>
+       <div class="control">
+         <input class="input" type="text" placeholder="Enter Item Name">
+       </div>
+     </div>
+     <div class="field is-horizontal">
+      <div class="field-body">
+        <div class="field-label">
+          <label class="label">Price</label>
+        </div>
+        <div class="field">
+          <div class="control is-expanded">
+              <input class="input is-fullwidth" type="text" placeholder="Enter Item Price in rupees">
+          </div>
+        </div>
+        <div class="field-label">
+          <label class="label">Quantity</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control is-expanded">
+              <div class="select is-fullwidth">
+                <select>
+                  <option [value]="units?.doc?.id" *ngFor="let units of ( itemService.unitsList | async)">{{ units?.name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     <div class="field is-horizontal">
+       <div class="field-body">
+         <div class="field-label is-normal">
+           <label class="label">Category</label>
+         </div>
+         <div class="field">
+           <div class="control is-expanded">
+             <div class="select is-fullwidth">
+               <select>
+                 <option value="">--select category--</option>
+                 <option [value]="category?.doc?.id" *ngFor="let category of ((commonService.allCategories | async))">{{ category.name}}</option>
+               </select>
+             </div>
+           </div>
+         </div>
+         <div class="field-label is-normal">
+           <label class="label">Status</label>
+         </div>
+         <div class="field-body">
+           <div class="field">
+             <div class="control is-expanded">
+               <div class="select is-fullwidth">
+                 <select>
+                   <option value="200">Active</option>
+                   <option value="201">InActive</option>
+                 </select>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+     <div class="field">
+       <label class="label">Description</label>
+       <div class="control">
+         <textarea class="textarea" placeholder="Textarea"></textarea>
+       </div>
+     </div>
+     <div class="box" *ngIf="(itemService.payloadUploadedUrl$ | async) == ''">
+      <p class="subtitle"> <ion-icon name="image-outline"></ion-icon> Upload item image</p>
+      <div class="file has-name is-primary">
+        <label class="file-label">
+          <input class="file-input is-fullwidth" (change)="uploadItemImage($event)" type="file" accept=".jpg, .jpeg, .png" name="resume" #fileSelector>
+          <span class="file-cta">
+            <span class="file-icon">
+              <ion-icon name="cloud-upload-outline"></ion-icon>
+            </span>
+            <span class="file-label">
+              Choose a file…
+            </span>
+          </span>
+          <span class="file-name">
+            {{ selecteddFileName }}
+          </span>
+        </label>
+      </div>
+      <div class="mt-2" *ngIf="selecteddFileName !== 'no file selected' &&  ( itemService.payloadUploadProgress$ | async ) as uploadProgress">
+        <progress [ngClass]="{'progress': true, 'is-info': uploadProgress !== 100, 'is-success': uploadProgress === 100}" [value]="uploadProgress" max="100"></progress>
+        <p *ngIf="uploadProgress !== 0">uploading {{ uploadProgress | number}} %</p>
+       </div>
+     </div>
+     <div class="card" *ngIf="(itemService.payloadUploadedUrl$ | async) !== ''">
+      <div class="card-image">
+        <figure class="image is-3by2">
+          <img [src]="(itemService.payloadUploadedUrl$ | async)" alt="Placeholder image">
+        </figure>
+      </div>
+      <div class="card-footer">
+        <div class="card-footer-item">
+          <button class="button is-small is-primary">
+            See preview
+          </button>
+        </div>
+        <div class="card-footer-item">
+          <button (click)="deleteImageAndUploadNew()" class="button is-small is-danger">
+            Delete & upload new
+          </button>
+        </div>
+      </div>
+    </div>
+   </div>
+   <div class="card-footer">
+     <div class="card-footer-item">
+      <button class="button is-light is-fullwidth"> RESET </button>
+      </div>
+      <div class="card-footer-item">
+        <button class="button is-primary is-fullwidth"> ADD ITEM </button>
+      </div>
+   </div>
+</div>

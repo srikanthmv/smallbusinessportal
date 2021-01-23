@@ -1,0 +1,12 @@
+<div class="container mt-5">
+  <div class="columns">
+    <div class="column is-half is-offset-one-quarter p-5">
+      <div *ngIf="actionItemInfo?.module === 'item' && actionItemInfo?.action === 'add'">
+        <app-add-item></app-add-item>
+      </div>
+      <div *ngIf="actionItemInfo?.module === 'item' && actionItemInfo?.action === 'edit'">
+        <app-add-item></app-add-item>
+      </div>
+    </div>
+  </div>
+</div>

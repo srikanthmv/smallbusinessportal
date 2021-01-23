@@ -20,7 +20,7 @@ export class CommonService {
     this.db.collection('Categories').snapshotChanges().pipe(
         map(changes =>
             changes.map(c =>
-                ({ Id: c.payload.doc.id, ...c.payload.doc.data() as Category })
+                ({ doc: c.payload.doc, ...c.payload.doc.data() as Category })
             ).map((categoryInfo) => {
               // @ts-ignore
               return ({slug: stringToSlug(categoryInfo.name), ...categoryInfo});

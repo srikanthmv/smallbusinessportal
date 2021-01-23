@@ -14,12 +14,26 @@ export class AuthenticationService {
       if (resp) {
         localStorage.setItem('$token', JSON.stringify(resp));
       } else {
-        localStorage.setItem('$token', '');
+        localStorage.removeItem('$token');
       }
     });
   }
 
   isUserLoggedIn(): boolean {
-    return localStorage.getItem("$token") !== null;
+    return (localStorage.getItem("$token") !== null || localStorage.getItem("$token") !== '');
+  }
+
+  updateTokenIfUserIsAvailable() {
+    this.fAuth.authState.subscribe((userResp) => {
+      if (userResp) {
+        localStorage.setItem('$token', JSON.stringify(userResp))
+      } else {
+        localStorage.removeItem('$token');
+      }
+    })
+  }
+
+  logoutAdmin(): Promise<void> {
+    return this.fAuth.signOut()
   }
 }

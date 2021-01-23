@@ -12,6 +12,9 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-end">
+            <div class="navbar-item" *ngIf="userLoggedIn">
+              <a routerLink="/admin/dashboard">Go to Dashboard</a>
+            </div>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
                     <span class="icon">

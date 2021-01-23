@@ -1,5 +1,7 @@
+import { QueryDocumentSnapshot } from "@angular/fire/firestore";
+
 export class Category {
-    id = '';
+    doc: QueryDocumentSnapshot<any> | undefined;
     name = '';
     status = '';
     slug = '';
