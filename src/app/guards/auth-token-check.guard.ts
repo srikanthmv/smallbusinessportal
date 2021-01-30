@@ -17,7 +17,6 @@ export class AuthTokenCheckGuard implements CanActivate, CanActivateChild {
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot):
       Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        debugger
         if (this.userService.isUserLoggedIn()) {
           return true;
         } else{

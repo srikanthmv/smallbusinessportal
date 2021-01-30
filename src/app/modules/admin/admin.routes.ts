@@ -27,7 +27,4 @@ const routes: Routes = [
 })
 
 export class AdminRoutes {
-    constructor() {
-        debugger
-    }
 }

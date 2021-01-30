@@ -28,7 +28,6 @@ export class CommonService {
         )
     ).subscribe(data => {
       this.allCategories.next(data);
-      console.log(this.allCategories.getValue());
     });
   }
 }

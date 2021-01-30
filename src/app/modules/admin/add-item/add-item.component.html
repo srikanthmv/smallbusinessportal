@@ -1,84 +1,109 @@
 <div class="card">
-  <div class="card-header has-background-primary is-primary">
-     <h2 class="card-header-title has-text-white">ADD ITEM</h2>
-   </div>
-   <div class="card-content">
-     <div class="field">
-       <label class="label">Item Name</label>
-       <div class="control">
-         <input class="input" type="text" placeholder="Enter Item Name">
-       </div>
-     </div>
-     <div class="field is-horizontal">
-      <div class="field-body">
-        <div class="field-label">
-          <label class="label">Price</label>
+    <div class="card-header has-background-primary is-primary">
+        <h2 class="card-header-title has-text-white">ADD ITEM</h2>
+    </div>
+    <div [formGroup]="itemInfoFg" class="card-content">
+        <div class="field">
+            <label class="label">Item Name</label>
+            <div class="control">
+                <input [ngClass]="{'is-danger': isControlInvalid(itemInfoFg, 'itemName')}" class="input"
+                       formControlName="itemName" placeholder="Enter Item Name" type="text">
+            </div>
+            <p *ngIf="isControlInvalid(itemInfoFg, 'itemName')" class="help is-danger">Item name is required</p>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <div class="field-label">
+                    <label class="label">Price</label>
+                </div>
+                <div class="field">
+                    <div class="control is-expanded">
+                        <input [ngClass]="{'is-danger': isControlInvalid(itemInfoFg, 'price')}"
+                               class="input is-fullwidth" formControlName="price"
+                               placeholder="Enter Item Price in rupees" type="text">
+                    </div>
+                    <p *ngIf="isControlInvalid(itemInfoFg, 'price', 'required')" class="help is-danger">This field is
+                        required</p>
+                    <p *ngIf="isControlInvalid(itemInfoFg, 'price', 'pattern')" class="help is-danger">Please enter
+                        valid price of item. the input should be a positive number</p>
+                </div>
+                <div class="field-label">
+                    <label class="label">Quantity</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control is-expanded">
+                            <div class="select is-fullwidth">
+                                <select formControlName="baseQuantityId">
+                                    <option [value]="''">--select units--</option>
+                                    <option *ngFor="let units of ( itemService.unitsList | async)"
+                                            [value]="units?.doc?.id">{{ units?.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p *ngIf="isControlInvalid(itemInfoFg, 'baseQuantityId')" class="help is-danger">This field is
+                            required</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <div class="field-label is-normal">
+                    <label class="label">Category</label>
+                </div>
+                <div class="field">
+                    <div class="control is-expanded">
+                        <div class="select is-fullwidth">
+                            <select formControlName="categoryId">
+                                <option value="">--select category--</option>
+                                <option *ngFor="let category of ((commonService.allCategories | async))"
+                                        [value]="category?.doc?.id">{{ category.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p *ngIf="isControlInvalid(itemInfoFg, 'categoryId')" class="help is-danger">This field is
+                        required</p>
+                </div>
+                <div class="field-label is-normal">
+                    <label class="label">Status</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control is-expanded">
+                            <div class="select is-fullwidth">
+                                <select formControlName="status">
+                                    <option [value]="''">--select status--</option>
+                                    <option value="200">Active</option>
+                                    <option value="201">InActive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p *ngIf="isControlInvalid(itemInfoFg, 'status')" class="help is-danger">This field is
+                            required</p>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="field">
-          <div class="control is-expanded">
-              <input class="input is-fullwidth" type="text" placeholder="Enter Item Price in rupees">
-          </div>
-        </div>
-        <div class="field-label">
-          <label class="label">Quantity</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control is-expanded">
-              <div class="select is-fullwidth">
-                <select>
-                  <option [value]="units?.doc?.id" *ngFor="let units of ( itemService.unitsList | async)">{{ units?.name }}</option>
-                </select>
-              </div>
+            <label class="label" for="item-desc">Description</label>
+            <div class="control">
+                <textarea class="textarea" formControlName="description" id="item-desc"
+                          placeholder="Textarea"></textarea>
             </div>
-          </div>
+            <p *ngIf="isControlInvalid(itemInfoFg, 'status')" class="help is-danger">This field is required</p>
         </div>
-      </div>
-    </div>
-     <div class="field is-horizontal">
-       <div class="field-body">
-         <div class="field-label is-normal">
-           <label class="label">Category</label>
-         </div>
-         <div class="field">
-           <div class="control is-expanded">
-             <div class="select is-fullwidth">
-               <select>
-                 <option value="">--select category--</option>
-                 <option [value]="category?.doc?.id" *ngFor="let category of ((commonService.allCategories | async))">{{ category.name}}</option>
-               </select>
-             </div>
-           </div>
-         </div>
-         <div class="field-label is-normal">
-           <label class="label">Status</label>
-         </div>
-         <div class="field-body">
-           <div class="field">
-             <div class="control is-expanded">
-               <div class="select is-fullwidth">
-                 <select>
-                   <option value="200">Active</option>
-                   <option value="201">InActive</option>
-                 </select>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     </div>
-     <div class="field">
-       <label class="label">Description</label>
-       <div class="control">
-         <textarea class="textarea" placeholder="Textarea"></textarea>
-       </div>
-     </div>
-     <div class="box" *ngIf="(itemService.payloadUploadedUrl$ | async) == ''">
-      <p class="subtitle"> <ion-icon name="image-outline"></ion-icon> Upload item image</p>
-      <div class="file has-name is-primary">
-        <label class="file-label">
-          <input class="file-input is-fullwidth" (change)="uploadItemImage($event)" type="file" accept=".jpg, .jpeg, .png" name="resume" #fileSelector>
-          <span class="file-cta">
+        <div *ngIf="(itemService.payloadUploadedUrl$ | async) == ''" class="box">
+            <p class="subtitle">
+                <ion-icon name="image-outline"></ion-icon>
+                Upload item image
+            </p>
+            <div class="file has-name is-primary">
+                <label class="file-label">
+                    <input #fileSelector (change)="uploadItemImage($event)"
+                           accept=".jpg, .jpeg, .png"
+                           class="file-input is-fullwidth" formControlName="fileInput" name="resume" type="file">
+                    <span class="file-cta">
             <span class="file-icon">
               <ion-icon name="cloud-upload-outline"></ion-icon>
             </span>
@@ -86,42 +111,46 @@
               Choose a file…
             </span>
           </span>
-          <span class="file-name">
+                    <span class="file-name">
             {{ selecteddFileName }}
           </span>
-        </label>
-      </div>
-      <div class="mt-2" *ngIf="selecteddFileName !== 'no file selected' &&  ( itemService.payloadUploadProgress$ | async ) as uploadProgress">
-        <progress [ngClass]="{'progress': true, 'is-info': uploadProgress !== 100, 'is-success': uploadProgress === 100}" [value]="uploadProgress" max="100"></progress>
-        <p *ngIf="uploadProgress !== 0">uploading {{ uploadProgress | number}} %</p>
-       </div>
-     </div>
-     <div class="card" *ngIf="(itemService.payloadUploadedUrl$ | async) !== ''">
-      <div class="card-image">
-        <figure class="image is-3by2">
-          <img [src]="(itemService.payloadUploadedUrl$ | async)" alt="Placeholder image">
-        </figure>
-      </div>
-      <div class="card-footer">
-        <div class="card-footer-item">
-          <button class="button is-small is-primary">
-            See preview
-          </button>
+                </label>
+                <p *ngIf="isControlInvalid(itemInfoFg, 'fileInput')" class="help is-danger">This field is required</p>
+            </div>
+            <div *ngIf="selecteddFileName !== 'no file selected' &&  ( itemService.payloadUploadProgress$ | async ) as uploadProgress"
+                 class="mt-2">
+                <progress
+                        [ngClass]="{'progress': true, 'is-info': uploadProgress !== 100, 'is-success': uploadProgress === 100}"
+                        [value]="uploadProgress" max="100"></progress>
+                <p *ngIf="uploadProgress !== 0">uploading {{ uploadProgress | number}} %</p>
+            </div>
         </div>
-        <div class="card-footer-item">
-          <button (click)="deleteImageAndUploadNew()" class="button is-small is-danger">
-            Delete & upload new
-          </button>
+        <div *ngIf="(itemService.payloadUploadedUrl$ | async) !== ''" class="card">
+            <div class="card-image">
+                <figure class="image is-3by2">
+                    <img [src]="(itemService.payloadUploadedUrl$ | async)" alt="Placeholder image">
+                </figure>
+            </div>
+            <div class="card-footer">
+                <div class="card-footer-item">
+                    <button class="button is-small is-primary">
+                        See preview
+                    </button>
+                </div>
+                <div class="card-footer-item">
+                    <button (click)="deleteImageAndUploadNew()" class="button is-small is-danger">
+                        Delete & upload new
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-   </div>
-   <div class="card-footer">
-     <div class="card-footer-item">
-      <button class="button is-light is-fullwidth"> RESET </button>
-      </div>
-      <div class="card-footer-item">
-        <button class="button is-primary is-fullwidth"> ADD ITEM </button>
-      </div>
-   </div>
+    <div class="card-footer">
+        <div class="card-footer-item">
+            <button (click)="resetFormInfo()" class="button is-light is-fullwidth"> RESET</button>
+        </div>
+        <div class="card-footer-item">
+            <button (click)="addItemToStore()" class="button is-primary is-fullwidth"> ADD ITEM</button>
+        </div>
+    </div>
 </div>

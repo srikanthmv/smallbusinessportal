@@ -10,6 +10,7 @@ import { AdminRoutes } from './admin.routes';
 import { AdminComponent } from './admin.component';
 import { AddItemComponent } from './add-item/add-item.component';
 import { StoreTasksComponent } from './store-tasks/store-tasks.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -25,7 +26,8 @@ import { StoreTasksComponent } from './store-tasks/store-tasks.component';
     StoreTasksComponent],
   imports: [
     CommonModule,
-    AdminRoutes
+    AdminRoutes,
+    ReactiveFormsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

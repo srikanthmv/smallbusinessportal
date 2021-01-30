@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   userLoginInfoFg: FormGroup = new FormGroup({});
   constructor(private authenticationService: AuthenticationService, private fb: FormBuilder,
-    private fAuth: AngularFireAuth, private router: Router) {
+              private fAuth: AngularFireAuth, private router: Router) {
     this.userLoginInfoFg = this.fb.group({
       username: [null, [Validators.required, new EmailValidator()]],
       password: [null, Validators.required]
@@ -24,11 +24,11 @@ export class LoginComponent implements OnInit {
     this.fAuth.authState.subscribe(user => {
       if (user){
         localStorage.setItem('$token', JSON.stringify(user));
-        this.router.navigate(['/admin/dashboard'])
+        this.router.navigate(['/admin/dashboard']);
       } else {
         localStorage.setItem('$token', '');
       }
-    })
+    });
   }
 
   get username(): FormControl {
