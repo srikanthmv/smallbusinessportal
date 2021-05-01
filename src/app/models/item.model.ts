@@ -1,13 +1,24 @@
 import { QueryDocumentSnapshot } from "@angular/fire/firestore";
 
-export class Item {
+export class ItemModel {
   doc: QueryDocumentSnapshot<any> | undefined;
-  BaseQuantityId: string | undefined;
-  CategoryId: string | undefined;
-  Description: string | undefined;
-  ImageUrl: string | undefined;
-  Name: string | undefined;
-  Price: string | undefined;
-  Status: string | undefined;
-  SubCategoryId: string | undefined;
+  baseQuantityId: string = '';
+  categoryId: string = '';
+  description: string  = '';
+  mainImageUrl: string  = '';
+  name: string  = '';
+  price: string  = '';
+  status: string  = '';
+  subCategoryId: string  = '';
+  stockOnHand: number | undefined;
+  colorId: string | undefined;
+  additionalImages: string[] = [];
+  meta?: ItemMetaDataModel | any;
+}
+
+export class ItemMetaDataModel {
+  categoryName: string  = '';
+  subCategoryName: string  = '';
+  status: string  = '';
+  quantityName: string  = '';
 }

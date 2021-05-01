@@ -1,7 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 @import "assets/scss/colors";
 @import "icons";
+@import "assets/scss/fonts";
+
+body, p, a, label, button, div {
+  //font-family: 'Inter-Regular', sans-serif !important;
+}
 
 body {
-  font-family: 'Oxygen', sans-serif !important;
+  background-color: #f6f7f9 !important;
+  height: 100% !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter-Bold', sans-serif !important;
 }

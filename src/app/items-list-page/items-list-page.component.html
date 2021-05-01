@@ -14,7 +14,7 @@
                                         <select [ngModel]="itemCategoryName">
                                             <option [value]="''">--select--</option>
                                             <option [value]="category.slug"
-                                                    *ngFor="let category of (commonService.allCategories | async)">
+                                                    *ngFor="let category of (commonService.allCategories$ | async)">
                                                 {{ category.name }}
                                             </option>
                                         </select>

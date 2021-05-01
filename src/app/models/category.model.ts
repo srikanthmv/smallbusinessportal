@@ -5,4 +5,5 @@ export class Category {
     name = '';
     status = '';
     slug = '';
+    imageUrl = '';
 }

@@ -1,7 +1,12 @@
-<nav class="navbar af-navbar" role="navigation" aria-label="main navigation" *ngIf="(commonService.allCategories | async) as categoriesList">
+<nav class="navbar af-navbar" role="navigation" aria-label="main navigation" *ngIf="(commonService.allCategories$ | async) as categoriesList">
     <div class="navbar-brand">
         <a class="navbar-item navbar-brand-block" [routerLink]="'/'">
-            <img src="assets/brand.jpg" width="112" height="112" style="max-height: 10rem;">
+<!--            <img alt="logo"-->
+<!--                 class="is-rounded"-->
+<!--                 src="assets/brand.jpg"-->
+<!--                 width="100"-->
+<!--                 height="100"-->
+<!--                 style="max-height: 10rem;">-->
         </a>
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>

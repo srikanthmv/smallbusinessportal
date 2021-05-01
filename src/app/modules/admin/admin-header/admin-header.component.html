@@ -1,8 +1,8 @@
 <nav class="navbar af-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item navbar-brand-block" [routerLink]="'/'">
-            <img src="assets/brand.jpg" width="112" height="112" style="max-height: 10rem;">
-        </a>
+<!--        <a class="navbar-item navbar-brand-block" [routerLink]="'/'">-->
+<!--            <img src="assets/brand.jpg" width="112" height="112" style="max-height: 10rem;">-->
+<!--        </a>-->
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -11,12 +11,24 @@
     </div>
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-end">
+            <a class="navbar-item" routerLink="/">
+                    <span class="icon">
+                      <i class="categories-icon"></i>
+                  </span>
+              <span>Client Site</span>
+            </a>
+            <a class="navbar-item" routerLink="/admin/dashboard">
+                  <span class="icon">
+                    <i class="categories-icon"></i>
+                </span>
+              <span>Dashboard</span>
+            </a>
             <a class="navbar-item" routerLink="/admin/items-list">
-              <span class="icon">
-                <i class="categories-icon"></i>
-            </span>
-            <span>Items List</span>
-          </a>
+                <span class="icon">
+                  <i class="categories-icon"></i>
+              </span>
+              <span>Items List</span>
+            </a>
             <a class="navbar-item" routerLink="/offers">
                 <span class="icon">
                     <i class="offers-icon"></i>

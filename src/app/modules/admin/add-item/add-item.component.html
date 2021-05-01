@@ -6,10 +6,10 @@
         <div class="field">
             <label class="label">Item Name</label>
             <div class="control">
-                <input [ngClass]="{'is-danger': isControlInvalid(itemInfoFg, 'itemName')}" class="input"
-                       formControlName="itemName" placeholder="Enter Item Name" type="text">
+                <input [ngClass]="{'is-danger': isControlInvalid(itemInfoFg, 'name')}" class="input"
+                       formControlName="name" placeholder="Enter Item Name" type="text">
             </div>
-            <p *ngIf="isControlInvalid(itemInfoFg, 'itemName')" class="help is-danger">Item name is required</p>
+            <p *ngIf="isControlInvalid(itemInfoFg, 'name')" class="help is-danger">Item name is required</p>
         </div>
         <div class="field is-horizontal">
             <div class="field-body">
@@ -36,7 +36,7 @@
                             <div class="select is-fullwidth">
                                 <select formControlName="baseQuantityId">
                                     <option [value]="''">--select units--</option>
-                                    <option *ngFor="let units of ( itemService.unitsList | async)"
+                                    <option *ngFor="let units of ( commonService.unitsList$ | async)"
                                             [value]="units?.doc?.id">{{ units?.name }}</option>
                                 </select>
                             </div>
@@ -57,7 +57,7 @@
                         <div class="select is-fullwidth">
                             <select formControlName="categoryId">
                                 <option value="">--select category--</option>
-                                <option *ngFor="let category of ((commonService.allCategories | async))"
+                                <option *ngFor="let category of ((commonService.allCategories$ | async))"
                                         [value]="category?.doc?.id">{{ category.name}}</option>
                             </select>
                         </div>
@@ -68,8 +68,7 @@
                 <div class="field-label is-normal">
                     <label class="label">Status</label>
                 </div>
-                <div class="field-body">
-                    <div class="field">
+                <div class="field">
                         <div class="control is-expanded">
                             <div class="select is-fullwidth">
                                 <select formControlName="status">
@@ -82,8 +81,66 @@
                         <p *ngIf="isControlInvalid(itemInfoFg, 'status')" class="help is-danger">This field is
                             required</p>
                     </div>
-                </div>
             </div>
+        </div>
+        <div class="field is-horizontal">
+          <div class="field-body">
+          <div class="field-label is-normal">
+            <label class="label">Brand Name</label>
+          </div>
+          <div class="field">
+            <div class="control is-normal">
+              <div class="select is-fullwidth">
+                <select formControlName="brandId">
+                  <option [value]="''">--select brand--</option>
+                  <option [value]="brand?.doc?.id"
+                          *ngFor="let brand of (commonService.brandsList$ | async)">{{ brand?.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="field-label is-normal">
+            <label class="label">Sale Tag</label>
+          </div>
+          <div class="field">
+            <div class="control is-normal">
+              <div class="select is-fullwidth">
+                <select formControlName="saleTagId">
+                  <option [value]="''">--select sale tag--</option>
+                  <option [value]="saleTag?.doc?.id"
+                          *ngFor="let saleTag of (commonService.saleTagsList$ | async)">{{ saleTag?.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Select color</label>
+        <div class="control is-expanded">
+          <div class="control">
+            <input list="item-colors-list"
+                   [ngClass]="{'is-danger': isControlInvalid(itemInfoFg, 'colorId')}"
+                   class="input" formControlName="colorId" placeholder="start typing to search color" type="text">
+          </div>
+          <p *ngIf="isControlInvalid(itemInfoFg, 'colorId')" class="help is-danger">
+            select valid color from the list
+          </p>
+          <datalist id="item-colors-list">
+            <option value="">--Select color variant--</option>
+            <option [value]="colorInfo?.name"  *ngFor="let colorInfo of (commonService.colorsList$ | async)">
+            </option>
+          </datalist>
+        </div>
+      </div>
+        <div class="field">
+          <label class="label">Stock on hand</label>
+          <div class="control is-normal">
+            <input [ngClass]="{'is-danger': isControlInvalid(itemInfoFg, 'stockOnHand')}"
+                   class="input" formControlName="stockOnHand" placeholder="Enter Item Stock" type="text">
+          </div>
         </div>
         <div class="field">
             <label class="label" for="item-desc">Description</label>
@@ -93,7 +150,7 @@
             </div>
             <p *ngIf="isControlInvalid(itemInfoFg, 'status')" class="help is-danger">This field is required</p>
         </div>
-        <div *ngIf="(itemService.payloadUploadedUrl$ | async) == ''" class="box">
+        <div *ngIf="(itemService.itemBannerImageUrl$ | async) == ''" class="box">
             <p class="subtitle">
                 <ion-icon name="image-outline"></ion-icon>
                 Upload item image
@@ -112,12 +169,12 @@
             </span>
           </span>
                     <span class="file-name">
-            {{ selecteddFileName }}
+            {{ selectedFileName }}
           </span>
                 </label>
                 <p *ngIf="isControlInvalid(itemInfoFg, 'fileInput')" class="help is-danger">This field is required</p>
             </div>
-            <div *ngIf="selecteddFileName !== 'no file selected' &&  ( itemService.payloadUploadProgress$ | async ) as uploadProgress"
+            <div *ngIf="selectedFileName !== 'no file selected' &&  ( itemService.itemBannerImageUploadProgress$ | async ) as uploadProgress"
                  class="mt-2">
                 <progress
                         [ngClass]="{'progress': true, 'is-info': uploadProgress !== 100, 'is-success': uploadProgress === 100}"
@@ -125,10 +182,10 @@
                 <p *ngIf="uploadProgress !== 0">uploading {{ uploadProgress | number}} %</p>
             </div>
         </div>
-        <div *ngIf="(itemService.payloadUploadedUrl$ | async) !== ''" class="card">
+        <div *ngIf="(itemService.itemBannerImageUrl$ | async) !== ''" class="card">
             <div class="card-image">
                 <figure class="image is-3by2">
-                    <img [src]="(itemService.payloadUploadedUrl$ | async)" alt="Placeholder image">
+                    <img [src]="(itemService.itemBannerImageUrl$ | async)" alt="banner image">
                 </figure>
             </div>
             <div class="card-footer">
@@ -149,8 +206,11 @@
         <div class="card-footer-item">
             <button (click)="resetFormInfo()" class="button is-light is-fullwidth"> RESET</button>
         </div>
-        <div class="card-footer-item">
+        <div class="card-footer-item" *ngIf="!editMode">
             <button (click)="addItemToStore()" class="button is-primary is-fullwidth"> ADD ITEM</button>
+        </div>
+        <div class="card-footer-item" *ngIf="editMode">
+          <button (click)="updateItem()" class="button is-primary is-fullwidth"> UPDATE ITEM</button>
         </div>
     </div>
 </div>

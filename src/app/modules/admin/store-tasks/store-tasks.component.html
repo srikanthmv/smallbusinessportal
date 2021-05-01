@@ -1,11 +1,13 @@
 <div class="container mt-5">
   <div class="columns">
-    <div class="column is-half is-offset-one-quarter p-5">
+    <div class="column is-three-fifths is-offset-one-fifth p-5">
       <div *ngIf="actionItemInfo?.module === 'item' && actionItemInfo?.action === 'add'">
         <app-add-item></app-add-item>
       </div>
-      <div *ngIf="actionItemInfo?.module === 'item' && actionItemInfo?.action === 'edit'">
-        <app-add-item></app-add-item>
+      <div *ngIf="actionItemInfo?.module === 'item' &&
+                  actionItemInfo?.action === 'edit' &&
+                  actionItemInfo?.id">
+        <app-add-item [ItemInfo]="(editableItemInfo$ | async)!"></app-add-item>
       </div>
     </div>
   </div>

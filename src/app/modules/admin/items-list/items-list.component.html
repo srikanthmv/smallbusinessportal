@@ -3,8 +3,12 @@
     <div class="column">
     </div>
     <div class="column is-one-quarter">
-      <button class="button is-primary is-pulled-right modal-button" [routerLink]="['/admin/store-action']"
-      [queryParams]="{module: 'item', action: 'add'}"><ion-icon name="add-circle"></ion-icon> ADD ITEM</button>
+      <button class="button is-primary is-pulled-right modal-button"
+              [routerLink]="['/admin/store-action']" (click)="removeImageUrl()"
+              [queryParams]="{module: 'item', action: 'add'}">
+        <ion-icon name="add-circle"></ion-icon>
+        ADD ITEM
+      </button>
     </div>
   </div>
   <div class="columns">
@@ -23,7 +27,7 @@
             <div class="field-body">
               <div class="field">
                 <p class="control is-expanded has-icons-left">
-                  <input class="input is-medium" type="text" placeholder="Search item by name">
+                  <input class="input is-small" type="text" placeholder="Search item by name">
                   <span class="icon is-small is-left">
                     <ion-icon name="pricetag-outline"></ion-icon>
                   </span>
@@ -31,25 +35,25 @@
               </div>
               <div class="field">
                 <div class="control">
-                    <div class="select is-fullwidth">
-                        <select class="input is-medium">
-                            <option [value]="''">--select category--</option>
-                            <option [value]="category.slug"
-                                    *ngFor="let category of (commonService.allCategories | async)">
-                                {{ category.name }}
-                            </option>
-                        </select>
-                    </div>
+                  <div class="select is-fullwidth">
+                    <select class="input is-small">
+                      <option [value]="''">--select category--</option>
+                      <option [value]="category.slug"
+                              *ngFor="let category of (commonService.allCategories$ | async)">
+                        {{ category.name }}
+                      </option>
+                    </select>
+                  </div>
                 </div>
-            </div>
+              </div>
               <div class="field is-grouped">
                 <p class="control">
-                  <a class="button is-medium is-primary">
+                  <a class="button is-small is-primary">
                     Search
                   </a>
                 </p>
                 <p class="control">
-                  <a class="button is-medium is-info">
+                  <a class="button is-small is-info">
                     Reset
                   </a>
                 </p>
@@ -60,108 +64,64 @@
       </div>
     </div>
   </div>
-  <div class="notification is-light">
+  <div class="notification is-primary">
     <p class="subtitle">All Items</p>
   </div>
-  <div class="columns is-mobile">
-    <div class="column">
-      <div class="tile is-ancestor">
-        <div class="tile is-parent">
-          <article class="tile is-child box">
-            <p class="title">Item Name</p>
-            <p class="subtitle">Category: category name</p>
-            <p class="subtitle">Status: Active</p>
-            <p class="has-text-weight-bold">Price: 200rs</p>
-            <div class="field is-grouped p-3">
-              <p class="control">
-                <button class="button is-link">
-                  <ion-icon name="create-outline"></ion-icon> Edit
-                </button>
+  <div class="container is-spaced">
+    <div class="columns is-multiline is-mobile" *ngIf="(itemsService.itemsList$ | async) as itemsList">
+      <div class="column is-3" *ngFor="let eachItem of itemsList">
+        <div class="card">
+          <header class="card-header">
+          </header>
+          <div class="card-content">
+            <div class="card-image">
+              <figure class="image is-4by3">
+                <img [src]="eachItem.mainImageUrl" alt="Image">
+              </figure>
+            </div>
+            <div class="content">
+              <p>
+                <strong>{{ eachItem.name }}</strong>
               </p>
-              <p class="control">
-                <button class="button is-primary">
-                  <ion-icon name="toggle"></ion-icon> Mark as active
-                </button>
+              <p>
+                <strong> Price: INR {{ eachItem.price }} / {{ eachItem.meta.quantityName }} </strong>
+              </p>
+              <p>
+                Category: {{ eachItem.meta.categoryName }}
+              </p>
+              <p>
+                Status: {{ eachItem.meta.status }}
               </p>
             </div>
-          </article>
-        </div>
-        <div class="tile is-parent">
-          <article class="tile is-child box">
-            <p class="title">Item Name</p>
-            <p class="subtitle">Category: category name</p>
-            <p class="subtitle">Status: Active</p>
-            <p class="has-text-weight-bold">Price: 200rs</p>
-            <div class="field is-grouped p-3">
-              <p class="control">
-                <button class="button is-link">
-                  <ion-icon name="create-outline"></ion-icon> Edit
-                </button>
-              </p>
-              <p class="control">
-                <button class="button is-primary">
-                  <ion-icon name="toggle"></ion-icon> Mark as active
-                </button>
-              </p>
-            </div>
-          </article>
-        </div>
-        <div class="tile is-parent">
-          <article class="tile is-child box">
-            <p class="title">Item Name</p>
-            <p class="subtitle">Category: category name</p>
-            <p class="subtitle">Status: Active</p>
-            <p class="has-text-weight-bold">Price: 200rs</p>
-            <div class="field is-grouped p-3">
-              <p class="control">
-                <button class="button is-link">
-                  <ion-icon name="create-outline"></ion-icon> Edit
-                </button>
-              </p>
-              <p class="control">
-                <button class="button is-primary">
-                  <ion-icon name="toggle"></ion-icon> Mark as active
-                </button>
-              </p>
-            </div>
-          </article>
-        </div>
-        <div class="tile is-parent">
-          <article class="tile is-child box">
-            <p class="title">Item Name</p>
-            <p class="subtitle">Category: category name</p>
-            <p class="subtitle">Status: Active</p>
-            <p class="has-text-weight-bold">Price: 200rs</p>
-            <div class="field is-grouped p-3">
-              <p class="control">
-                <button class="button is-link">
-                  <ion-icon name="create-outline"></ion-icon> Edit
-                </button>
-              </p>
-              <p class="control">
-                <button class="button is-primary">
-                  <ion-icon name="toggle"></ion-icon> Mark as active
-                </button>
-              </p>
-            </div>
-          </article>
+          </div>
+          <footer class="card-footer card-actions">
+            <a (click)="editItem(eachItem?.doc?.id)"
+               class="card-footer-item is-primary">Edit
+            </a>
+            <a (click)="markAsActiveAndInactive(eachItem)"
+               class="card-footer-item is-info">
+              Mark as {{ eachItem.status == '200' ? 'in-active' : 'active'  }}
+            </a>
+            <a (click)="toggleDeleteModal('open', eachItem)"
+               class="is-danger card-footer-item">delete
+            </a>
+          </footer>
         </div>
       </div>
     </div>
   </div>
-  <div class="modal" id="add-item-modal">
+  <div class="modal" #DeleteItemModal>
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Modal title</p>
-        <button class="delete" aria-label="close"></button>
+        <p class="modal-card-title">Confirm delete</p>
+        <button class="delete" (click)="toggleDeleteModal('close')" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
-        <!-- Content ... -->
+        <p>Are you sure you want to delete <strong>{{ itemIdToDelete?.name }}</strong></p> ?
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success">Save changes</button>
-        <button class="button">Cancel</button>
+        <button (click)="confirmDelete()" class="button is-danger">delete</button>
       </footer>
     </div>
   </div>
