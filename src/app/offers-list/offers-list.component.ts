@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from '../services/common.service';
 
 @Component({
   selector: 'app-offers-list',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OffersListComponent implements OnInit {
 
-  constructor() { }
+  constructor(public commonService:CommonService) { }
 
   ngOnInit(): void {
+    this.commonService.getOfferTagsList();
+  }
+  isListShow = true;
+  isDetailsShow = false;
+
+  getDetails(slug:string){
+    this.isDetailsShow = true;
+    this.isListShow = false;
+    
   }
 
 }

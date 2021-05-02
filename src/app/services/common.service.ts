@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import {Category} from '../models/category.model';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {stringToSlug} from '../../utils';
 import {UnitsModel} from "../models/units.model";
 import {BrandsModel} from "../models/brands.model";
 import {SaleTagsModel} from "../models/sale-tags.model";
+import {OfferTagsModel} from "../models/offers-tags.model";
 import {DbCollections} from "../utils/collections";
 import {ColorsModel} from "../models/colors.model";
-
+import firebase from "firebase";
+import DocumentSnapshot = firebase.firestore.DocumentSnapshot;
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +20,8 @@ export class CommonService {
   public brandsList$: BehaviorSubject<BrandsModel[]> = new BehaviorSubject([] as BrandsModel[]);
   public saleTagsList$: BehaviorSubject<SaleTagsModel[]> = new BehaviorSubject([] as SaleTagsModel[]);
   public allCategories$: BehaviorSubject<Category[]> = new BehaviorSubject([] as Category[]);
+  public offerObject$: BehaviorSubject<OfferTagsModel[]> = new BehaviorSubject([] as OfferTagsModel[]);
+  public offerTagsList$: BehaviorSubject<OfferTagsModel[]> = new BehaviorSubject([] as OfferTagsModel[]);
   public colorsList$: BehaviorSubject<ColorsModel[]> =
     new BehaviorSubject<ColorsModel[]>([] as ColorsModel[]);
   constructor(private db: AngularFirestore) {
@@ -39,6 +43,31 @@ export class CommonService {
       this.allCategories$.next(data);
     });
   }
+
+
+  public getOfferTagsList(): void {
+    // @ts-ignore
+    // @ts-ignore
+    this.db.collection('OfferTags').snapshotChanges().pipe(
+        map(changes =>
+            changes.map(c =>
+                ({ doc: c.payload.doc, ...c.payload.doc.data() as OfferTagsModel })
+            ).map((offerInfo) => {
+              // @ts-ignore
+              return ({slug: stringToSlug(offerInfo.name), ...offerInfo});
+            })
+        )
+    ).subscribe(data => {
+      this.offerTagsList$.next(data);
+    });
+  }
+
+  getoffer(docId:string): Observable<DocumentSnapshot<any>> {
+    const itemRef = this.db.collection('OfferTags').doc(`${docId}`)
+    console.log(itemRef.get())
+    return itemRef.get();
+  }
+  
 
   getDefaultCollections(collectionName: string): void {
     this.db.collection(`${collectionName}`).snapshotChanges().pipe(

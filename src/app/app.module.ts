@@ -9,6 +9,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { NgSimpleCarouselModule } from 'ng-simple-carousel';
 import { CategoriesBlockComponent } from './categories-block/categories-block.component';
 import { OffersListComponent } from './offers-list/offers-list.component';
+import { OfferDetailsComponent } from './offer-details-page/offer-details.component';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
 import { ItemsListPageComponent } from './items-list-page/items-list-page.component';
 import { AngularFireModule } from '@angular/fire';
@@ -19,6 +20,7 @@ import { LoginComponent } from './login/login.component';
 import { DefaultComponent } from './_layouts/default/default.component';
 import { AngularFireStorage } from '@angular/fire/storage';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +29,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
     HomePageComponent,
     CategoriesBlockComponent,
     OffersListComponent,
+    OfferDetailsComponent,
     TestimonialsComponent,
     ItemsListPageComponent,
       LoginComponent,
