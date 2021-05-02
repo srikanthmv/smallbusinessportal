@@ -1,14 +1,59 @@
 <div class="container mt-5">
   <div class="columns">
     <div class="column is-three-fifths is-offset-one-fifth p-5">
-      <div *ngIf="actionItemInfo?.module === 'item' && actionItemInfo?.action === 'add'">
-        <app-add-item></app-add-item>
-      </div>
-      <div *ngIf="actionItemInfo?.module === 'item' &&
+      <div *ngIf="!itemInserted">
+        <div *ngIf="actionItemInfo?.module === 'item' && actionItemInfo?.action === 'add'">
+          <app-add-item (itemAdded)="itemAddedEventHandler($event)"></app-add-item>
+        </div>
+        <div *ngIf="actionItemInfo?.module === 'item' &&
                   actionItemInfo?.action === 'edit' &&
                   actionItemInfo?.id">
-        <app-add-item [ItemInfo]="(editableItemInfo$ | async)!"></app-add-item>
+          <app-add-item [ItemInfo]="(editableItemInfo$ | async)!"></app-add-item>
+        </div>
       </div>
+      <article class="message is-success" *ngIf="itemInserted">
+        <div class="message-header">
+          <p>Success!</p>
+        </div>
+        <div class="message-body">
+          <div class="is-spaced">
+            <h4>Item {{ (recentlyAddedItemInfo$ | async)?.name }} has added successfully.</h4>
+          </div>
+          <div *ngIf="(itemCombinationsList$ | async)?.length">
+            <div class="p-3">
+              <h3>ITEM VARIANTS</h3>
+            </div>
+            <div class="p-3">
+              <h4>Following are the different variants derived from the added item.
+                by selecting the variants you can instantly create the multiple items at once.</h4>
+            </div>
+            <div class="p-3">
+              <div class="field is-horizontal">
+                <label class="checkbox">
+                  <input type="checkbox" (change)="selectOrDeselectAllItems($event)">
+                  Select All
+                </label>
+              </div>
+            </div>
+            <div class="box is-spaced" *ngFor="let item of (itemCombinationsList$ | async)">
+            <label class="checkbox">
+              <input type="checkbox" (change)="manageVariantsListItem(item, $event)">
+              <strong>{{ item?.name | slice: 1:20 }}</strong> | Rs {{ item?.price }} |
+              <strong>Color {{ getItemColorLabel(item) }}</strong> | <strong>Size {{ getItemSizeLabel(item)}}</strong>
+            </label>
+          </div>
+          <button class="btn btn-primary is-large" (click)="proceedToCreateItems()">CREATE {{ variantsSelectedList?.length }} ITEMS</button>
+          </div>
+          <div *ngIf="(createdVariantsCount | async)! > 0">
+            <progress
+              [ngClass]="{'progress': true, 'is-info': (createdVariantsCount | async) !== variantsSelectedList.length,
+              'is-success': (createdVariantsCount | async) === variantsSelectedList.length}"
+              [value]="createdVariantsCount" [max]="variantsSelectedList.length"></progress>
+            <p *ngIf="(createdVariantsCount | async) !== 0">creating {{ (createdVariantsCount | async)}} of
+              {{ variantsSelectedList?.length }} items</p>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </div>

@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
-import {ItemService} from "../../../services/item-service";
+import {ItemService} from "../../../services/item/item-service";
 import {map} from "rxjs/operators";
 import {ItemUtils} from "../../../utils/item-utils";
 import {environment} from "../../../../environments/environment";
@@ -23,17 +23,21 @@ export class ItemsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getActiveItems();
+    this.setMetaInfoForItems();
+  }
+
+  setMetaInfoForItems() {
     this.itemsService.itemsList$.pipe(map((itemInfo) => {
       const itemData = itemInfo;
       itemData.map((item) => {
         item.meta.status = this.itemUtilService.getItemStatus(item.status);
         item.meta.categoryName = this.itemUtilService.getCategoryName(item.categoryId);
         item.meta.quantityName = this.itemUtilService.getUnitName(item.baseQuantityId);
+        item.meta.size = this.itemUtilService.getSizeName(item.sizeId);
+        item.meta.color = this.itemUtilService.getColorName(item.colorId);
       })
       return itemData
-    })).subscribe((resp) => {
-      console.log(resp);
-    });
+    })).subscribe();
   }
 
   getActiveItems(): void {
@@ -82,7 +86,6 @@ export class ItemsListComponent implements OnInit {
   confirmDelete() {
     this.itemsService.deleteItem(this.itemIdToDelete?.doc?.id!).then(() => {
       this.toggleDeleteModal('close');
-      alert('item deleted successfully');
     })
   }
 

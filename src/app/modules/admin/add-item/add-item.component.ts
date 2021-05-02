@@ -1,12 +1,24 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ItemModel } from 'src/app/models/item.model';
 import { UploadImageModel } from 'src/app/models/upload-image.model';
 import { CommonService } from 'src/app/services/common.service';
-import { ItemService } from 'src/app/services/item-service';
+import { ItemService } from 'src/app/services/item/item-service';
 import {map} from "rxjs/operators";
 import {nonListValidator} from "../../../utils/validators/non-list.validator";
 import {ColorsModel} from "../../../models/colors.model";
+import {Category} from "../../../models/category.model";
+import {sizeRequiredCategories} from "../../../../utils";
 declare const gtag: any;
 @Component({
   selector: 'app-add-item',
@@ -17,10 +29,13 @@ export class AddItemComponent implements OnInit, OnChanges {
   @Input() ItemInfo: ItemModel | undefined;
   @Input() TestString: string | undefined;
   @ViewChild('fileSelector') fileSelector: ElementRef<Element> | undefined;
+  @Output() itemAdded: EventEmitter<{id: string}> = new EventEmitter();
+
   selectedFileName = 'no file selected';
   itemInfoFg: FormGroup = new FormGroup({});
   editMode = false;
-  colorsList: ColorsModel[] = []
+  colorsList: ColorsModel[] = [];
+  sizeRequiredCategoryIds: string[] = [];
   constructor(public commonService: CommonService, public itemService: ItemService, private fb: FormBuilder) {
     this.createFg();
   }
@@ -30,8 +45,24 @@ export class AddItemComponent implements OnInit, OnChanges {
       this.itemInfoFg.controls.mainImageUrl.patchValue(imgUrl);
     });
     this.commonService.colorsList$.pipe(map((color) =>
-      color.map((colorInfo) => { this.colorsList.push(colorInfo)})))
+      color.map((colorInfo) => {this.colorsList.push(colorInfo)})))
       .subscribe();
+    this.commonService.allCategories$.pipe(map((categories) => {
+      categories.map((category) => {
+        if (sizeRequiredCategories.indexOf(category.name.toLowerCase()) > -1) {
+          this.sizeRequiredCategoryIds.push(category?.doc?.id!);
+        }
+      })
+    })).subscribe();
+    this.itemInfoFg.controls.categoryId.valueChanges.subscribe((categoryId) => {
+      if (this.sizeRequiredCategoryIds.indexOf(categoryId) > -1) {
+          this.itemInfoFg.controls.sizeId.setValidators([Validators.required]);
+      } else {
+        this.itemInfoFg.controls.sizeId.setValidators([]);
+        this.itemInfoFg.controls.sizeId.setValue('');
+      }
+      this.itemInfoFg.controls.sizeId.updateValueAndValidity();
+    })
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -59,7 +90,8 @@ export class AddItemComponent implements OnInit, OnChanges {
       saleTagId: [''],
       additionalImages: [''],
       stockOnHand: ['', Validators.pattern('^[+]?([0-9]+(?:[\\.][0-9]*)?|\\.[0-9]+)$')],
-      colorId: ['', [nonListValidator(this.colorsList, 'name')]]
+      colorId: ['', [nonListValidator(this.colorsList, 'name')]],
+      sizeId: ['']
     });
   }
 
@@ -95,9 +127,10 @@ export class AddItemComponent implements OnInit, OnChanges {
       const itemInfo: ItemModel = this.updateColorOfItem();
       this.itemService.insertItem(itemInfo).then(
         (resp) => {
+          console.log(resp.id);
         this.itemInfoFg.reset();
         this.itemService.itemBannerImageUrl$.next('');
-        alert("item added successfully");
+        this.itemAdded.emit({ id: resp?.id});
       },
         (error) => {
           alert("Error while inserting item");

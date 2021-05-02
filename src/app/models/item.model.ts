@@ -12,6 +12,7 @@ export class ItemModel {
   subCategoryId: string  = '';
   stockOnHand: number | undefined;
   colorId: string | undefined;
+  sizeId: string | undefined;
   additionalImages: string[] = [];
   meta?: ItemMetaDataModel | any;
 }
@@ -21,4 +22,6 @@ export class ItemMetaDataModel {
   subCategoryName: string  = '';
   status: string  = '';
   quantityName: string  = '';
+  size: string = '';
+  color: string = '';
 }

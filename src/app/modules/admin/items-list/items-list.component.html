@@ -68,7 +68,7 @@
     <p class="subtitle">All Items</p>
   </div>
   <div class="container is-spaced">
-    <div class="columns is-multiline is-mobile" *ngIf="(itemsService.itemsList$ | async) as itemsList">
+    <div class="columns is-multiline" *ngIf="(itemsService.itemsList$ | async) as itemsList">
       <div class="column is-3" *ngFor="let eachItem of itemsList">
         <div class="card">
           <header class="card-header">
@@ -91,6 +91,12 @@
               </p>
               <p>
                 Status: {{ eachItem.meta.status }}
+              </p>
+              <p>
+                Size: {{ eachItem?.meta?.size || 'N/A' }}
+              </p>
+              <p>
+                Color: {{ eachItem.meta.color }}
               </p>
             </div>
           </div>
