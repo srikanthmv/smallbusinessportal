@@ -29,8 +29,10 @@ export class StoreTasksComponent implements OnInit {
   variantsList: VariantsModel[] = [] as VariantsModel[];
   variantsSelectedList: ItemModel[] = [] as ItemModel[];
   createdVariantsCount: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  constructor(private aRouter: ActivatedRoute, private router: Router,
-              private itemService: ItemService, private itemUtilService: ItemUtils,
+  constructor(private aRouter: ActivatedRoute,
+              private router: Router,
+              private itemService: ItemService,
+              private itemUtilService: ItemUtils,
               private commonService: CommonService) {
   }
 
@@ -90,12 +92,20 @@ export class StoreTasksComponent implements OnInit {
     }
 
     // finding variants when both color and sizes are available
-    if (availableSizes.length && availableColors.length) {
-      availableColors.forEach((color) => {
-        availableSizes.forEach((size) => {
-          this.variantsList.push({ color: color.name, size: size.name, colorDoc: color.doc!, sizeDoc: size.doc!})
-        })
-      })
+    // if (availableSizes.length && availableColors.length) {
+    //   availableColors.forEach((color) => {
+    //     availableSizes.forEach((size) => {
+    //       this.variantsList.push({ color: color.name, size: size.name, colorDoc: color.doc!, sizeDoc: size.doc!})
+    //     })
+    //   })
+    // }
+
+    for (let colorIndex = 0; colorIndex < availableColors.length; colorIndex++) {
+      for (let sizeIndex = 0; sizeIndex < availableSizes.length; sizeIndex) {
+        this.variantsList.push({ color: availableColors[colorIndex].name,
+          size: availableSizes[sizeIndex].name, colorDoc: availableColors[colorIndex].doc!,
+          sizeDoc: availableSizes[sizeIndex].doc!})
+      }
     }
 
     // generate color only combinations
