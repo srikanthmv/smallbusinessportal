@@ -4,12 +4,17 @@ import {HomePageComponent} from './home-page/home-page.component';
 import {OffersListComponent} from './offers-list/offers-list.component';
 import {ItemsListPageComponent} from './items-list-page/items-list-page.component';
 import { DefaultComponent } from './_layouts/default/default.component';
+import { OfferDetailsComponent } from './offer-details-page/offer-details.component';
 
 const routes: Routes = [
    { path: '', component: DefaultComponent,
     children: [
       { path: '', component: HomePageComponent, pathMatch: 'full'},
-      { path: 'offers', component: OffersListComponent},
+      { path: 'offers', component: OffersListComponent,},
+    {
+        path:'offers/:slug',component:OfferDetailsComponent,pathMatch:'full'
+      
+    },
       { path: 'items-list/:category', component: ItemsListPageComponent}
     ]
   },
