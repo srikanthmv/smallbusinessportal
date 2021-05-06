@@ -117,6 +117,41 @@
           </div>
           </div>
         </div>
+        <div class="columns" *ngIf="selectedSaleTag">
+          <div class="column">
+            <div class="field">
+              <div class="filed-body">
+                <div class="filed-label">
+                  <label class="label">Discount(%)</label>
+                </div>
+                <div class="filed">
+                  <div class="control has-icons-left has-icons-right">
+                    <input class="input" type="number" min="1"
+                           formControlName="discount"
+                           placeholder="Enter discount percentage">
+                    <span class="icon is-small is-left">
+                      <i class="mdi mdi-ticket-percent"></i>
+                    </span>
+                    <span class="icon is-small is-right">
+                      <i class="mdi mdi-percent"></i>
+                    </span>
+                  </div>
+                  <p *ngIf="isControlInvalid(itemInfoFg, 'discount')" class="help is-danger">This field is
+                    required</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="p-3">
+              <ul>
+                <li><p>Item base price : <strong>{{ itemInfoFg?.controls?.price?.value }}</strong></p></li>
+                <li><p>Discount in rupees : <strong>{{ discountPriceInRs }}</strong></p></li>
+                <li><p>After discount: <strong>{{ itemInfoFg?.controls?.discountedPrice?.value }}</strong></p></li>
+              </ul>
+            </div>
+          </div>
+        </div>
         <div class="filed is-horizontal">
           <div class="field-body">
             <div class="field-label is-normal">

@@ -14,11 +14,12 @@ import { ItemModel } from 'src/app/models/item.model';
 import { UploadImageModel } from 'src/app/models/upload-image.model';
 import { CommonService } from 'src/app/services/common.service';
 import { ItemService } from 'src/app/services/item/item-service';
-import {map} from "rxjs/operators";
+import {first, map} from "rxjs/operators";
 import {nonListValidator} from "../../../utils/validators/non-list.validator";
 import {ColorsModel} from "../../../models/colors.model";
 import {Category} from "../../../models/category.model";
 import {sizeRequiredCategories} from "../../../../utils";
+import {SaleTagsModel} from "../../../models/sale-tags.model";
 declare const gtag: any;
 @Component({
   selector: 'app-add-item',
@@ -36,14 +37,36 @@ export class AddItemComponent implements OnInit, OnChanges {
   editMode = false;
   colorsList: ColorsModel[] = [];
   sizeRequiredCategoryIds: string[] = [];
+  discountPriceInRs: number = 0;
+  selectedSaleTag: SaleTagsModel | undefined;
   constructor(public commonService: CommonService, public itemService: ItemService, private fb: FormBuilder) {
     this.createFg();
   }
 
   ngOnInit(): void {
+    this.patchImageUrls();
+    this.setSystemDataUtils();
+    this.formInputsValueChangesHandler();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.ItemInfo.currentValue !== undefined) {
+      this.ItemInfo = changes.ItemInfo.currentValue;
+      this.itemInfoFg.patchValue(this.ItemInfo!);
+      this.editMode = true;
+      this.itemInfoFg.updateValueAndValidity();
+      this.setDiscount();
+      this.itemService.itemBannerImageUrl$.next(this.ItemInfo?.mainImageUrl!)
+    }
+  }
+
+  patchImageUrls(): void {
     this.itemService.itemBannerImageUrl$.subscribe((imgUrl) => {
       this.itemInfoFg.controls.mainImageUrl.patchValue(imgUrl);
     });
+  }
+
+  setSystemDataUtils(): void {
     this.commonService.colorsList$.pipe(map((color) =>
       color.map((colorInfo) => {this.colorsList.push(colorInfo)})))
       .subscribe();
@@ -54,25 +77,41 @@ export class AddItemComponent implements OnInit, OnChanges {
         }
       })
     })).subscribe();
+  }
+
+  formInputsValueChangesHandler() {
+    // if the selected category is under the size required category, user should select the item size.
     this.itemInfoFg.controls.categoryId.valueChanges.subscribe((categoryId) => {
       if (this.sizeRequiredCategoryIds.indexOf(categoryId) > -1) {
-          this.itemInfoFg.controls.sizeId.setValidators([Validators.required]);
+        this.itemInfoFg.controls.sizeId.setValidators([Validators.required]);
       } else {
         this.itemInfoFg.controls.sizeId.setValidators([]);
         this.itemInfoFg.controls.sizeId.setValue('');
       }
       this.itemInfoFg.controls.sizeId.updateValueAndValidity();
     })
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.ItemInfo.currentValue !== undefined) {
-      this.ItemInfo = changes.ItemInfo.currentValue;
-      this.itemInfoFg.patchValue(this.ItemInfo!);
-      this.editMode = true;
-      this.itemInfoFg.updateValueAndValidity();
-      this.itemService.itemBannerImageUrl$.next(this.ItemInfo?.mainImageUrl!)
-    }
+    // when the sale offer is selected (offer type should be discount), user should enter the discount for that item.
+    this.itemInfoFg.controls.saleTagId.valueChanges.subscribe((saleTag) => {
+      if (saleTag) {
+        this.commonService.saleTagsList$.pipe(first()).subscribe((tagsInfo) => {
+          this.selectedSaleTag = tagsInfo.find((tag) => tag?.doc?.id === saleTag && tag.discountRequired)
+        });
+        this.itemInfoFg.controls.discount.setValidators([Validators.min(1), Validators.required]);
+      } else {
+        this.selectedSaleTag = undefined;
+        this.itemInfoFg.controls.discount.setValidators([]);
+        this.itemInfoFg.controls.discount.setValue('');
+      }
+      this.itemInfoFg.controls.discount.updateValueAndValidity();
+    })
+    this.itemInfoFg.controls.discount.valueChanges.subscribe((discount) => {
+      if (discount) {
+        this.setDiscount();
+      } else {
+        this.removeDiscount();
+      }
+      this.itemInfoFg.controls.discountedPrice.updateValueAndValidity();
+    })
   }
 
   createFg(): void {
@@ -91,7 +130,9 @@ export class AddItemComponent implements OnInit, OnChanges {
       additionalImages: [''],
       stockOnHand: ['', Validators.pattern('^[+]?([0-9]+(?:[\\.][0-9]*)?|\\.[0-9]+)$')],
       colorId: ['', [nonListValidator(this.colorsList, 'name')]],
-      sizeId: ['']
+      sizeId: [''],
+      discount: [''],
+      discountedPrice: [''],
     });
   }
 
@@ -156,6 +197,18 @@ export class AddItemComponent implements OnInit, OnChanges {
     itemInfo.colorId = this.colorsList.find((color) =>
       color.name == this.itemInfoFg.value.colorId)?.doc?.id
     return itemInfo;
+  }
+
+  setDiscount() {
+    const discount = this.itemInfoFg.controls.discount.value;
+    const basePrice = this.itemInfoFg.controls.price.value;
+    this.discountPriceInRs = discount * basePrice / 100;
+    this.itemInfoFg.controls.discountedPrice.setValue(basePrice - this.discountPriceInRs);
+  }
+
+  removeDiscount() {
+    this.discountPriceInRs = 0;
+    this.itemInfoFg.controls.discountedPrice.setValue(0);
   }
 
 }
