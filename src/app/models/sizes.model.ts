@@ -1,8 +1,9 @@
 import {QueryDocumentSnapshot} from "@angular/fire/firestore";
 
-export interface SaleTagsModel {
+export interface SizesModel {
   doc: QueryDocumentSnapshot<any> | undefined;
-  name: string | '';
-  status: number | undefined;
-  discountRequired: boolean;
+  name: string;
+  status: number;
+  style: string;
+  label: string;
 }

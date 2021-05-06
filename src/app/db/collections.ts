@@ -6,5 +6,7 @@ export const DbCollections = {
   SubCategory: 'SubCategory',
   Units: 'Units',
   Colors: 'Colors',
-  OfferTags:'OfferTags'
+  OfferTags:'OfferTags',
+  Colors: 'Colors',
+  Sizes: 'Sizes'
 }

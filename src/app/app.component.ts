@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from './services/authentication.service';
 import {CommonService} from './services/common.service';
 import {environment} from "../environments/environment";
-import {DbCollections} from "./utils/collections";
+import {DbCollections} from "./db/collections";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +17,7 @@ export class AppComponent {
 
   fetchConfigData() {
     this.commonService.getAllCategories();
-    [DbCollections.Brands, DbCollections.SaleTags, DbCollections.Units, DbCollections.Colors]
+    [DbCollections.Brands, DbCollections.SaleTags, DbCollections.Units, DbCollections.Colors, DbCollections.Sizes]
       .forEach((collection) => {
         this.commonService.getDefaultCollections(`${collection}`);
       })

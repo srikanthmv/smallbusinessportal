@@ -1,10 +1,11 @@
 import {CommonService} from "../services/common.service";
-import {ItemService} from "../services/item-service";
+import {ItemService} from "../services/item/item-service";
 import {filter, first, take} from "rxjs/operators";
 import {UnitsModel} from "../models/units.model";
 import {Category} from "../models/category.model";
 import {Injectable} from "@angular/core";
 import {ColorsModel} from "../models/colors.model";
+import {SizesModel} from "../models/sizes.model";
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,14 @@ export class ItemUtils {
       colorsInfo = colors.find((color) => color?.doc?.id === colorId) as ColorsModel;
     })
     return colorsInfo?.name || '';
+  }
+
+  getSizeName(sizeId: string | undefined): string {
+    let sizeInfo: ColorsModel = {} as SizesModel;
+    this.commonService.sizesList$.pipe(take(1)).subscribe((sizes) => {
+      sizeInfo = sizes.find((size) => size?.doc?.id === sizeId) as SizesModel;
+    })
+    return sizeInfo?.name || '';
   }
 
   getItemStatus(statusCode: string): string {

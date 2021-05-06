@@ -9,9 +9,12 @@ import {BrandsModel} from "../models/brands.model";
 import {SaleTagsModel} from "../models/sale-tags.model";
 import {OfferTagsModel} from "../models/offers-tags.model";
 import {DbCollections} from "../utils/collections";
+import {DbCollections} from "../db/collections";
 import {ColorsModel} from "../models/colors.model";
 import firebase from "firebase";
 import DocumentSnapshot = firebase.firestore.DocumentSnapshot;
+import {SizesModel} from "../models/sizes.model";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,6 +27,7 @@ export class CommonService {
   public offerTagsList$: BehaviorSubject<OfferTagsModel[]> = new BehaviorSubject([] as OfferTagsModel[]);
   public colorsList$: BehaviorSubject<ColorsModel[]> =
     new BehaviorSubject<ColorsModel[]>([] as ColorsModel[]);
+  public sizesList$: BehaviorSubject<SizesModel[]> = new BehaviorSubject([] as SizesModel[]);
   constructor(private db: AngularFirestore) {
   }
 
@@ -67,7 +71,7 @@ export class CommonService {
     console.log(itemRef.get())
     return itemRef.get();
   }
-  
+
 
   getDefaultCollections(collectionName: string): void {
     this.db.collection(`${collectionName}`).snapshotChanges().pipe(
@@ -82,6 +86,8 @@ export class CommonService {
               return { doc: c.payload.doc, ...c.payload.doc.data() as SaleTagsModel }
             case DbCollections.Colors:
               return { doc: c.payload.doc, ...c.payload.doc.data() as ColorsModel }
+            case DbCollections.Sizes:
+              return { doc: c.payload.doc, ...c.payload.doc.data() as SizesModel}
             default:
               return {}
           }
@@ -100,6 +106,9 @@ export class CommonService {
           break;
         case DbCollections.Colors:
           this.colorsList$.next(data as ColorsModel[]);
+          break;
+        case DbCollections.Sizes:
+          this.sizesList$.next(data as SizesModel[]);
           break;
         default:
           break;

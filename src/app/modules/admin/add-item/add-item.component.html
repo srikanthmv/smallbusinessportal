@@ -117,24 +117,80 @@
           </div>
           </div>
         </div>
-        <div class="field">
-          <label class="label">Select color</label>
-        <div class="control is-expanded">
-          <div class="control">
-            <input list="item-colors-list"
-                   [ngClass]="{'is-danger': isControlInvalid(itemInfoFg, 'colorId')}"
-                   class="input" formControlName="colorId" placeholder="start typing to search color" type="text">
+        <div class="columns" *ngIf="selectedSaleTag">
+          <div class="column">
+            <div class="field">
+              <div class="filed-body">
+                <div class="filed-label">
+                  <label class="label">Discount(%)</label>
+                </div>
+                <div class="filed">
+                  <div class="control has-icons-left has-icons-right">
+                    <input class="input" type="number" min="1"
+                           formControlName="discount"
+                           placeholder="Enter discount percentage">
+                    <span class="icon is-small is-left">
+                      <i class="mdi mdi-ticket-percent"></i>
+                    </span>
+                    <span class="icon is-small is-right">
+                      <i class="mdi mdi-percent"></i>
+                    </span>
+                  </div>
+                  <p *ngIf="isControlInvalid(itemInfoFg, 'discount')" class="help is-danger">This field is
+                    required</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <p *ngIf="isControlInvalid(itemInfoFg, 'colorId')" class="help is-danger">
-            select valid color from the list
-          </p>
-          <datalist id="item-colors-list">
-            <option value="">--Select color variant--</option>
-            <option [value]="colorInfo?.name"  *ngFor="let colorInfo of (commonService.colorsList$ | async)">
-            </option>
-          </datalist>
+          <div class="column">
+            <div class="p-3">
+              <ul>
+                <li><p>Item base price : <strong>{{ itemInfoFg?.controls?.price?.value }}</strong></p></li>
+                <li><p>Discount in rupees : <strong>{{ discountPriceInRs }}</strong></p></li>
+                <li><p>After discount: <strong>{{ itemInfoFg?.controls?.discountedPrice?.value }}</strong></p></li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
+        <div class="filed is-horizontal">
+          <div class="field-body">
+            <div class="field-label is-normal">
+              <label class="label">Color</label>
+            </div>
+            <div class="field">
+              <div class="control is-normal">
+                <input list="item-colors-list"
+                       [ngClass]="{'is-danger': isControlInvalid(itemInfoFg, 'colorId')}"
+                       class="input" formControlName="colorId" placeholder="start typing to search color" type="text">
+              </div>
+              <p *ngIf="isControlInvalid(itemInfoFg, 'colorId')" class="help is-danger">
+                select valid color from the list
+              </p>
+              <datalist id="item-colors-list">
+                <option value="">--Select color variant--</option>
+                <option [value]="colorInfo?.name"  *ngFor="let colorInfo of (commonService.colorsList$ | async)">
+                </option>
+              </datalist>
+            </div>
+            <div class="field-label is-normal">
+              <label class="label">Size</label>
+            </div>
+            <div class="field">
+              <div class="control is-normal">
+                <div class="select is-fullwidth">
+                  <select formControlName="sizeId">
+                    <option [value]="''">--select size--</option>
+                    <option [value]="size?.doc?.id"
+                            *ngFor="let size of (commonService.sizesList$ | async)">{{ size?.name }}
+                    </option>
+                  </select>
+                </div>
+                <p *ngIf="isControlInvalid(itemInfoFg, 'sizeId')" class="help is-danger">This field is
+                  required</p>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="field">
           <label class="label">Stock on hand</label>
           <div class="control is-normal">
@@ -150,7 +206,7 @@
             </div>
             <p *ngIf="isControlInvalid(itemInfoFg, 'status')" class="help is-danger">This field is required</p>
         </div>
-        <div *ngIf="(itemService.itemBannerImageUrl$ | async) == ''" class="box">
+        <div *ngIf="(itemService.itemBannerImageUrl$ | async) == ''" class="box has-background-primary-light">
             <p class="subtitle">
                 <ion-icon name="image-outline"></ion-icon>
                 Upload item image
