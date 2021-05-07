@@ -17,9 +17,11 @@ import { ItemService } from 'src/app/services/item/item-service';
 import {first, map} from "rxjs/operators";
 import {nonListValidator} from "../../../utils/validators/non-list.validator";
 import {ColorsModel} from "../../../models/colors.model";
-import {Category} from "../../../models/category.model";
 import {sizeRequiredCategories} from "../../../../utils";
 import {SaleTagsModel} from "../../../models/sale-tags.model";
+import {BehaviorSubject} from "rxjs";
+import {ImageUploadProcessModel} from "../../../models/image-upload-process.model";
+import {imageSharp} from "ionicons/icons";
 declare const gtag: any;
 @Component({
   selector: 'app-add-item',
@@ -32,13 +34,14 @@ export class AddItemComponent implements OnInit, OnChanges {
   @ViewChild('fileSelector') fileSelector: ElementRef<Element> | undefined;
   @Output() itemAdded: EventEmitter<{id: string}> = new EventEmitter();
 
-  selectedFileName = 'no file selected';
   itemInfoFg: FormGroup = new FormGroup({});
   editMode = false;
   colorsList: ColorsModel[] = [];
   sizeRequiredCategoryIds: string[] = [];
   discountPriceInRs: number = 0;
   selectedSaleTag: SaleTagsModel | undefined;
+  itemImagesList: ImageUploadProcessModel[] = [] as ImageUploadProcessModel[];
+  itemBannerImage$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   constructor(public commonService: CommonService, public itemService: ItemService, private fb: FormBuilder) {
     this.createFg();
   }
@@ -50,20 +53,27 @@ export class AddItemComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.ItemInfo.currentValue !== undefined) {
+    if (changes?.ItemInfo?.currentValue) {
       this.ItemInfo = changes.ItemInfo.currentValue;
       this.itemInfoFg.patchValue(this.ItemInfo!);
       this.editMode = true;
       this.itemInfoFg.updateValueAndValidity();
       this.setDiscount();
-      this.itemService.itemBannerImageUrl$.next(this.ItemInfo?.mainImageUrl!)
+      if (this.ItemInfo?.additionalImages?.length) {
+        this.ItemInfo?.additionalImages?.forEach((image) => {
+          this.itemImagesList.push({ imageUrl: image.imageUrl,
+            uploadPercentage: 100, fileName: image.fileName } as ImageUploadProcessModel)
+        });
+      }
+      this.itemBannerImage$.next(this.ItemInfo?.mainImageUrl!);
     }
   }
 
   patchImageUrls(): void {
-    this.itemService.itemBannerImageUrl$.subscribe((imgUrl) => {
-      this.itemInfoFg.controls.mainImageUrl.patchValue(imgUrl);
-    });
+    this.itemImagesList.forEach((image) => {
+      this.itemInfoFg.controls.additionalImages.patchValue(image?.imageUrl);
+      this.itemInfoFg.controls.additionalImages.updateValueAndValidity();
+    })
   }
 
   setSystemDataUtils(): void {
@@ -124,7 +134,6 @@ export class AddItemComponent implements OnInit, OnChanges {
       price: ['', [Validators.required, Validators.pattern('^[+]?([0-9]+(?:[\\.][0-9]*)?|\\.[0-9]+)$')]],
       status: ['', Validators.required],
       subCategoryId: [''],
-      fileInput: ['', Validators.required],
       brandId: [''],
       saleTagId: [''],
       additionalImages: [''],
@@ -137,17 +146,31 @@ export class AddItemComponent implements OnInit, OnChanges {
   }
 
   uploadItemImage(event: any): void {
-    this.selectedFileName = (event?.target?.files[0] as File)?.name;
-    const uploadImageInfo = new UploadImageModel();
-    uploadImageInfo.imageType = 400;
-    uploadImageInfo.payload = event?.target?.files[0];
-    this.itemService.uploadImage(uploadImageInfo);
-  }
-
-  deleteImageAndUploadNew(): void {
-    this.itemService.resetImageTrackingData();
-    this.selectedFileName = 'no file selected';
-    this.itemInfoFg.controls.fileInput.setValue('');
+    for(let fileIndex=0; fileIndex < event?.target?.files?.length; fileIndex++) {
+      const initialImageUploadInfo = {imageUrl: '',uploadPercentage: 0,
+        fileName: (event?.target?.files[fileIndex] as File)?.name} as ImageUploadProcessModel;
+      if (this.itemImagesList.length) {
+        this.itemImagesList.unshift(initialImageUploadInfo)
+      } else {
+        this.itemImagesList.push(initialImageUploadInfo);
+      }
+      const uploadImageInfo = new UploadImageModel();
+      uploadImageInfo.payload = event?.target?.files[fileIndex];
+      if (!this.itemImagesList[fileIndex]?.imageUrl) {
+        const task = this.itemService.uploadImage(uploadImageInfo)
+        task.snapshotChanges().subscribe((changes) => {
+          this.itemImagesList[fileIndex].fileName = changes?.metadata?.name!;
+          task.percentageChanges().subscribe((progress) => {
+            this.itemImagesList[fileIndex].uploadPercentage = progress as number });
+          changes?.ref.getDownloadURL().then((url) => {
+            this.itemImagesList[fileIndex].imageUrl = url;
+            if (!this.itemInfoFg?.controls?.mainImageUrl?.value) {
+              this.setBannerImage(url);
+            }
+          } );
+        });
+      }
+    }
   }
 
   isControlInvalid(formGrpName: FormGroup, controlName: string, errorKey?: string): boolean | undefined {
@@ -165,12 +188,13 @@ export class AddItemComponent implements OnInit, OnChanges {
 
   addItemToStore(): void {
     if (this.itemInfoFg.valid) {
+      this.updateAdditionalImages();
       const itemInfo: ItemModel = this.updateColorOfItem();
       this.itemService.insertItem(itemInfo).then(
         (resp) => {
           console.log(resp.id);
         this.itemInfoFg.reset();
-        this.itemService.itemBannerImageUrl$.next('');
+        this.itemImagesList = [];
         this.itemAdded.emit({ id: resp?.id});
       },
         (error) => {
@@ -186,6 +210,7 @@ export class AddItemComponent implements OnInit, OnChanges {
   }
 
   updateItem() {
+    this.updateAdditionalImages();
     const itemInfo: ItemModel = this.updateColorOfItem();
     this.itemService.updateItem(itemInfo, this.ItemInfo?.doc?.id!).then((updateResp) => {
       alert("item updated successfully")
@@ -199,6 +224,12 @@ export class AddItemComponent implements OnInit, OnChanges {
     return itemInfo;
   }
 
+  updateAdditionalImages() {
+    let imagesList = this.itemImagesList.filter((images) => images?.imageUrl !== "")
+    this.itemInfoFg.controls.additionalImages.setValue(imagesList);
+    this.itemInfoFg.controls.additionalImages.updateValueAndValidity();
+  }
+
   setDiscount() {
     const discount = this.itemInfoFg.controls.discount.value;
     const basePrice = this.itemInfoFg.controls.price.value;
@@ -209,6 +240,22 @@ export class AddItemComponent implements OnInit, OnChanges {
   removeDiscount() {
     this.discountPriceInRs = 0;
     this.itemInfoFg.controls.discountedPrice.setValue(0);
+  }
+
+  removeImage(itemName: string): void {
+    this.itemService.deleteFileStorage(itemName).subscribe((resp) => {
+      const fileIndex = this.itemImagesList.findIndex((image) => image.fileName === itemName)
+      this.itemImagesList.splice(fileIndex,1);
+    })
+  }
+
+  isBannerImage(imgUrl: string): boolean {
+   return this.itemInfoFg?.controls?.mainImageUrl?.value === imgUrl
+  }
+
+  setBannerImage(imgUrl: string): void {
+    this.itemInfoFg?.controls?.mainImageUrl.setValue(imgUrl);
+    this.itemInfoFg.updateValueAndValidity();
   }
 
 }

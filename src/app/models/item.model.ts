@@ -1,27 +1,28 @@
 import { QueryDocumentSnapshot } from "@angular/fire/firestore";
+import {ImageUploadProcessModel} from "./image-upload-process.model";
 
-export class ItemModel {
+export interface ItemModel {
   doc: QueryDocumentSnapshot<any> | undefined;
-  baseQuantityId: string = '';
-  categoryId: string = '';
-  description: string  = '';
-  mainImageUrl: string  = '';
-  name: string  = '';
-  price: string  = '';
-  status: string  = '';
-  subCategoryId: string  = '';
+  baseQuantityId: string;
+  categoryId: string;
+  description: string;
+  mainImageUrl: string;
+  name: string;
+  price: string;
+  status: string;
+  subCategoryId: string;
   stockOnHand: number | undefined;
   colorId: string | undefined;
   sizeId: string | undefined;
-  additionalImages: string[] = [];
+  additionalImages: ImageUploadProcessModel[];
   meta?: ItemMetaDataModel | any;
 }
 
-export class ItemMetaDataModel {
-  categoryName: string  = '';
-  subCategoryName: string  = '';
-  status: string  = '';
-  quantityName: string  = '';
-  size: string = '';
-  color: string = '';
+export interface ItemMetaDataModel {
+  categoryName: string;
+  subCategoryName: string;
+  status: string;
+  quantityName: string;
+  size: string;
+  color: string;
 }
