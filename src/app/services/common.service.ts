@@ -8,7 +8,6 @@ import {UnitsModel} from "../models/units.model";
 import {BrandsModel} from "../models/brands.model";
 import {SaleTagsModel} from "../models/sale-tags.model";
 import {OfferTagsModel} from "../models/offers-tags.model";
-import {DbCollections} from "../utils/collections";
 import {DbCollections} from "../db/collections";
 import {ColorsModel} from "../models/colors.model";
 import firebase from "firebase";

@@ -206,57 +206,50 @@
             </div>
             <p *ngIf="isControlInvalid(itemInfoFg, 'status')" class="help is-danger">This field is required</p>
         </div>
-        <div *ngIf="(itemService.itemBannerImageUrl$ | async) == ''" class="box has-background-primary-light">
+        <div class="box has-background-primary-light">
             <p class="subtitle">
                 <ion-icon name="image-outline"></ion-icon>
-                Upload item image
+                Upload item images
             </p>
             <div class="file has-name is-primary">
                 <label class="file-label">
                     <input #fileSelector (change)="uploadItemImage($event)"
                            accept=".jpg, .jpeg, .png"
-                           class="file-input is-fullwidth" formControlName="fileInput" name="resume" type="file">
+                           class="file-input is-fullwidth"
+                           name="resume"
+                           type="file" multiple>
                     <span class="file-cta">
-            <span class="file-icon">
-              <ion-icon name="cloud-upload-outline"></ion-icon>
-            </span>
-            <span class="file-label">
-              Choose a file…
-            </span>
-          </span>
-                    <span class="file-name">
-            {{ selectedFileName }}
-          </span>
+                <span class="file-icon">
+                  <ion-icon name="cloud-upload-outline"></ion-icon>
+                </span>
+                <span class="file-label">
+                  Choose files..
+                </span>
+              </span>
                 </label>
-                <p *ngIf="isControlInvalid(itemInfoFg, 'fileInput')" class="help is-danger">This field is required</p>
-            </div>
-            <div *ngIf="selectedFileName !== 'no file selected' &&  ( itemService.itemBannerImageUploadProgress$ | async ) as uploadProgress"
-                 class="mt-2">
-                <progress
-                        [ngClass]="{'progress': true, 'is-info': uploadProgress !== 100, 'is-success': uploadProgress === 100}"
-                        [value]="uploadProgress" max="100"></progress>
-                <p *ngIf="uploadProgress !== 0">uploading {{ uploadProgress | number}} %</p>
             </div>
         </div>
-        <div *ngIf="(itemService.itemBannerImageUrl$ | async) !== ''" class="card">
-            <div class="card-image">
-                <figure class="image is-3by2">
-                    <img [src]="(itemService.itemBannerImageUrl$ | async)" alt="banner image">
-                </figure>
+      <div class="columns is-multiline" *ngIf="itemImagesList?.length">
+        <div class="column is-4" *ngFor="let imageInfo of itemImagesList">
+          <div class="notification">
+            <button class="delete is-pulled-right" (click)="removeImage(imageInfo?.fileName!)"></button>
+            <figure class="image is-5by4">
+              <img [alt]="imageInfo?.fileName" [src]="imageInfo?.imageUrl" *ngIf="imageInfo?.uploadPercentage === 100">
+              <img alt="sample image" src="https://bulma.io/images/placeholders/600x480.png" *ngIf="imageInfo?.uploadPercentage !== 100">
+            </figure>
+            <div class="p-2">
+              <progress [ngClass]="{'progress': true, 'is-info': imageInfo?.uploadPercentage !== 100,
+                      'is-success': imageInfo?.uploadPercentage === 100}" [value]="imageInfo?.uploadPercentage"
+                        max="100" *ngIf="imageInfo?.uploadPercentage !== 100">
+              </progress>
+              <button class="button is-primary is-small is-outlined" (click)="setBannerImage(imageInfo?.imageUrl!)"
+                      *ngIf="imageInfo?.uploadPercentage === 100 && !isBannerImage(imageInfo?.imageUrl!)">
+                mark as primary
+              </button>
             </div>
-            <div class="card-footer">
-                <div class="card-footer-item">
-                    <button class="button is-small is-primary">
-                        See preview
-                    </button>
-                </div>
-                <div class="card-footer-item">
-                    <button (click)="deleteImageAndUploadNew()" class="button is-small is-danger">
-                        Delete & upload new
-                    </button>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
     <div class="card-footer">
         <div class="card-footer-item">

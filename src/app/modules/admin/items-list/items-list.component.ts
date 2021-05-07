@@ -44,10 +44,6 @@ export class ItemsListComponent implements OnInit {
     this.itemsService.getStoreItems('Active');
   }
 
-  removeImageUrl() {
-    this.itemsService.itemBannerImageUrl$.next("");
-  }
-
   editItem(itemDocId: string | undefined): void {
     if (itemDocId !== undefined) {
       this.router.navigate(['/admin/store-action'],

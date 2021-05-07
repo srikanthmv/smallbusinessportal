@@ -12,25 +12,24 @@ import firebase from "firebase";
 import DocumentSnapshot = firebase.firestore.DocumentSnapshot;
 import {ItemSearchFilterModel} from "../../models/item-search-filter.model";
 import {DbCollections} from "../../db/collections";
+import {AngularFireUploadTask} from "@angular/fire/storage/task";
+import {UploadTaskSnapshot} from "@angular/fire/storage/interfaces";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemService {
-  itemBannerImageUploadProgress$: BehaviorSubject<number> = new BehaviorSubject(0);
-  itemBannerImageUrl$: BehaviorSubject<string> = new BehaviorSubject('');
+  private basePath = '/item-images';
   itemsList$: BehaviorSubject<ItemModel[]> = new BehaviorSubject([] as ItemModel[]);
   constructor(private db: AngularFirestore, private afs: AngularFireStorage) {}
 
-  uploadImage(paylodInfo: UploadImageModel): void {
-    if (paylodInfo.imageType === 400) {
-      const ref = this.afs.ref(`item-images/${paylodInfo.payload?.name}${Date.now()}`);
-      const task = ref.put(paylodInfo.payload);
-      task.snapshotChanges().subscribe((changes) => {
-        task.percentageChanges().subscribe((progress) => {this.itemBannerImageUploadProgress$.next(progress as number); });
-        changes?.ref.getDownloadURL().then((url) => this.itemBannerImageUrl$.next(url));
-      });
-    }
+  uploadImage(payloadInfo: UploadImageModel): AngularFireUploadTask {
+    const ref = this.afs.ref(`item-images/${Date.now()}_${payloadInfo.payload?.name}`);
+    return ref.put(payloadInfo.payload) as AngularFireUploadTask;
+  }
+
+  deleteFileStorage(name: string): Observable<any> {
+    return this.afs.ref(`${this.basePath}/${name}`).delete() as Observable<any>;
   }
 
   insertItem(itemInfo: any) {
@@ -50,11 +49,6 @@ export class ItemService {
     return itemRef.get();
   }
 
-  resetImageTrackingData(): void {
-    this.itemBannerImageUploadProgress$.next(0);
-    this.itemBannerImageUrl$.next('');
-  }
-
   getStoreItems(status: 'Active'| 'Inactive'): void {
     this.db.collection('Items').snapshotChanges().pipe(
       map(changes =>
@@ -65,10 +59,5 @@ export class ItemService {
     ).subscribe(data => {
       this.itemsList$.next(data);
     });
-  }
-
-  filterItems(searchFilters: ItemSearchFilterModel) {
-    // this.avisos = this.db.collection(`${DbCollections.Items}`, ref => ref.where('categoria','==', categoriaToFilter )).valueChanges()
-    // this.db.collection()
   }
 }
