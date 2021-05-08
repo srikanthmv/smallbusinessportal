@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import {AccountService} from "../../../services/account/account.service";
+import {AccountModel} from "../../../models/account.model";
 
 @Component({
   selector: 'app-admin-header',
@@ -8,10 +10,17 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   styleUrls: ['./admin-header.component.scss']
 })
 export class AdminHeaderComponent implements OnInit {
-
-  constructor(private authService: AuthenticationService, private router: Router) { }
+  accountInfo: AccountModel | undefined;
+  constructor(private authService: AuthenticationService,
+              private router: Router,
+              private accountService: AccountService) { }
 
   ngOnInit(): void {
+    this.accountService.accountInfo$.subscribe((accounts) => {
+      if (accounts.length) {
+        this.accountInfo = accounts[0] as AccountModel;
+      }
+    })
   }
 
   logout() {

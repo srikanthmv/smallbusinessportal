@@ -3,6 +3,7 @@ import { AuthenticationService } from './services/authentication.service';
 import {CommonService} from './services/common.service';
 import {environment} from "../environments/environment";
 import {DbCollections} from "./db/collections";
+import {AccountService} from "./services/account/account.service";
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,10 @@ import {DbCollections} from "./db/collections";
 })
 export class AppComponent {
   title = 'smallbusinessportal';
-  constructor(public commonService: CommonService) {
+  constructor(public commonService: CommonService,
+              public accountService: AccountService) {
     this.fetchConfigData();
+    this.getAccountDetails();
   }
 
   fetchConfigData() {
@@ -21,5 +24,9 @@ export class AppComponent {
       .forEach((collection) => {
         this.commonService.getDefaultCollections(`${collection}`);
       })
+  }
+
+  getAccountDetails() {
+    this.accountService.getAccountDetails()
   }
 }

@@ -1,8 +1,9 @@
 <nav class="navbar af-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-<!--        <a class="navbar-item navbar-brand-block" [routerLink]="'/'">-->
-<!--            <img src="assets/brand.jpg" width="112" height="112" style="max-height: 10rem;">-->
-<!--        </a>-->
+        <a class="navbar-item navbar-brand-block" [routerLink]="'/'">
+            <img [alt]="accountInfo?.name" [src]="accountInfo?.logo"
+                 width="112" height="112" style="max-height: 10rem;">
+        </a>
         <a role="button" (click)="toggleNavBar()" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
