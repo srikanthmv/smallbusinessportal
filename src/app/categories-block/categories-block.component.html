@@ -1,10 +1,13 @@
 <div class="container mt-2">
-    <div class="columns is-multiline is-mobile">
-        <div class="column" *ngFor="let category of (commonService.allCategories$ | async) | slice: 0: 4">
+    <div class="columns is-multiline">
+        <div class="column is-3" *ngFor="let category of (commonService.allCategories$ | async) | slice: 0: 4">
             <div class="card">
                 <div class="card-image">
                     <figure class="image is-4by3">
-                        <img loading="lazy" [src]="category.imageUrl" alt="category image">
+                      <picture>
+                        <source [srcset]="category.imageUrl" type="image/webp">
+                      </picture>
+                      <img loading="lazy" [src]="category.imageUrl" alt="category image">
                     </figure>
                 </div>
                 <div class="card-content">

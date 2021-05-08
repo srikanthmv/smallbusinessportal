@@ -8,7 +8,7 @@
 <!--                 height="100"-->
 <!--                 style="max-height: 10rem;">-->
         </a>
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <a role="button" (click)="toggleNavBar()" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -20,7 +20,7 @@
             <div class="navbar-item" *ngIf="userLoggedIn">
               <a routerLink="/admin/dashboard">Go to Dashboard</a>
             </div>
-            <div class="navbar-item has-dropdown is-hoverable">
+            <div class="navbar-item has-dropdown">
                 <a class="navbar-link">
                     <span class="icon">
                         <i class="categories-icon"></i>
