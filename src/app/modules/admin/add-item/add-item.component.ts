@@ -41,7 +41,6 @@ export class AddItemComponent implements OnInit, OnChanges {
   discountPriceInRs: number = 0;
   selectedSaleTag: SaleTagsModel | undefined;
   itemImagesList: ImageUploadProcessModel[] = [] as ImageUploadProcessModel[];
-  itemBannerImage$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   constructor(public commonService: CommonService, public itemService: ItemService, private fb: FormBuilder) {
     this.createFg();
   }
@@ -59,13 +58,9 @@ export class AddItemComponent implements OnInit, OnChanges {
       this.editMode = true;
       this.itemInfoFg.updateValueAndValidity();
       this.setDiscount();
-      if (this.ItemInfo?.additionalImages?.length) {
-        this.ItemInfo?.additionalImages?.forEach((image) => {
-          this.itemImagesList.push({ imageUrl: image.imageUrl,
-            uploadPercentage: 100, fileName: image.fileName } as ImageUploadProcessModel)
-        });
+      if (Object.keys(this.ItemInfo!).length > 0) {
+        this.setDefaultImagesOnLoad();
       }
-      this.itemBannerImage$.next(this.ItemInfo?.mainImageUrl!);
     }
   }
 
@@ -74,6 +69,18 @@ export class AddItemComponent implements OnInit, OnChanges {
       this.itemInfoFg.controls.additionalImages.patchValue(image?.imageUrl);
       this.itemInfoFg.controls.additionalImages.updateValueAndValidity();
     })
+  }
+
+  setDefaultImagesOnLoad() {
+    if (this.ItemInfo?.additionalImages?.length) {
+      this.ItemInfo?.additionalImages?.forEach((image) => {
+        this.itemImagesList.push({ imageUrl: image.imageUrl,
+          uploadPercentage: 100, fileName: image.fileName } as ImageUploadProcessModel)
+      });
+    } else {
+      this.itemImagesList.push({ imageUrl: this.ItemInfo?.mainImageUrl!,
+        uploadPercentage: 100, fileName: ''});
+    }
   }
 
   setSystemDataUtils(): void {
@@ -167,7 +174,7 @@ export class AddItemComponent implements OnInit, OnChanges {
             if (!this.itemInfoFg?.controls?.mainImageUrl?.value) {
               this.setBannerImage(url);
             }
-          } );
+          });
         });
       }
     }
@@ -210,11 +217,15 @@ export class AddItemComponent implements OnInit, OnChanges {
   }
 
   updateItem() {
-    this.updateAdditionalImages();
-    const itemInfo: ItemModel = this.updateColorOfItem();
-    this.itemService.updateItem(itemInfo, this.ItemInfo?.doc?.id!).then((updateResp) => {
-      alert("item updated successfully")
-    })
+    if (this.itemInfoFg.valid) {
+      this.updateAdditionalImages();
+      const itemInfo: ItemModel = this.updateColorOfItem();
+      this.itemService.updateItem(itemInfo, this.ItemInfo?.doc?.id!).then((updateResp) => {
+        alert("item updated successfully")
+      })
+    } else {
+      this.itemInfoFg.markAllAsTouched();
+    }
   }
 
   updateColorOfItem(): ItemModel {

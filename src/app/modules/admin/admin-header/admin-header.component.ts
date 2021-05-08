@@ -20,4 +20,12 @@ export class AdminHeaderComponent implements OnInit {
     })
   }
 
+  toggleNavBar() {
+    if (document.getElementById("navbarBasicExample")!.classList.contains("is-active")) {
+      document.getElementById("navbarBasicExample")!.classList.remove("is-active")
+    } else {
+      document.getElementById("navbarBasicExample")!.classList.add("is-active")
+    }
+  }
+
 }

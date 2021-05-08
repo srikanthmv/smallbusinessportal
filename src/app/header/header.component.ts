@@ -17,4 +17,12 @@ export class HeaderComponent implements OnInit {
     this.userLoggedIn = this.authService.isUserLoggedIn();
   }
 
+  toggleNavBar() {
+    if (document.getElementById("navbarBasicExample")!.classList.contains("is-active")) {
+      document.getElementById("navbarBasicExample")!.classList.remove("is-active")
+    } else {
+      document.getElementById("navbarBasicExample")!.classList.add("is-active")
+    }
+  }
+
 }
