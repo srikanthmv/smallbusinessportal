@@ -1,12 +1,11 @@
 <nav class="navbar af-navbar" role="navigation" aria-label="main navigation" *ngIf="(commonService.allCategories$ | async) as categoriesList">
     <div class="navbar-brand">
         <a class="navbar-item navbar-brand-block" [routerLink]="'/'">
-<!--            <img alt="logo"-->
-<!--                 class="is-rounded"-->
-<!--                 src="assets/brand.jpg"-->
-<!--                 width="100"-->
-<!--                 height="100"-->
-<!--                 style="max-height: 10rem;">-->
+            <img alt="logo"
+                 [src]="accountInfo?.logo"
+                 width="120"
+                 height="100"
+                 style="max-height: 10rem;">
         </a>
         <a role="button" (click)="toggleNavBar()" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>

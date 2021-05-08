@@ -7,5 +7,6 @@ export const DbCollections = {
   Units: 'Units',
   Colors: 'Colors',
   OfferTags:'OfferTags',
-  Sizes: 'Sizes'
+  Sizes: 'Sizes',
+  Accounts: 'Accounts',
 }
