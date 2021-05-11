@@ -37,10 +37,7 @@ export class CommonService {
         map(changes =>
             changes.map(c =>
                 ({ doc: c.payload.doc, ...c.payload.doc.data() as Category })
-            ).map((categoryInfo) => {
-              // @ts-ignore
-              return ({slug: stringToSlug(categoryInfo.name), ...categoryInfo});
-            })
+            )
         )
     ).subscribe(data => {
       this.allCategories$.next(data);

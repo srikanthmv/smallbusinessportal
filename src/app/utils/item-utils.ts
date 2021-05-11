@@ -6,6 +6,8 @@ import {Category} from "../models/category.model";
 import {Injectable} from "@angular/core";
 import {ColorsModel} from "../models/colors.model";
 import {SizesModel} from "../models/sizes.model";
+import {ItemMetaDataModel, ItemModel} from "../models/item.model";
+import {SaleTagsModel} from "../models/sale-tags.model";
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +51,14 @@ export class ItemUtils {
     return sizeInfo?.name || '';
   }
 
+  getSaleTagName(saleTagId: string | undefined): string {
+    let saleTagInfo : SaleTagsModel = {} as SaleTagsModel;
+    this.commonService.saleTagsList$.pipe(take(1)).subscribe((saleTags) => {
+      saleTagInfo = saleTags.find((tag) => tag?.doc?.id === saleTagId) as SaleTagsModel;
+    })
+    return saleTagInfo?.name || '';
+  }
+
   getItemStatus(statusCode: string): string {
     switch (statusCode) {
       case '200':
@@ -58,5 +68,17 @@ export class ItemUtils {
       default:
         return '';
     }
+  }
+
+  public setMetaDataForItem(item: ItemModel): ItemModel {
+    item.meta = { categoryName: '', subCategoryName:'', saleTagName: '',
+      status: '', color: '', quantityName: '', size: '' } as ItemMetaDataModel;
+    item.meta.status = this.getItemStatus(item.status);
+    item.meta.categoryName = this.getCategoryName(item.categoryId);
+    item.meta.quantityName = this.getUnitName(item.baseQuantityId);
+    item.meta.size = this.getSizeName(item.sizeId);
+    item.meta.color = this.getColorName(item.colorId);
+    item.meta.saleTagName = this.getSaleTagName(item.saleTagId);
+    return item;
   }
 }

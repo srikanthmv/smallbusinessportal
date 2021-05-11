@@ -9,11 +9,13 @@ export interface ItemModel {
   mainImageUrl: string;
   name: string;
   price: string;
+  discountedPrice: number;
   status: string;
   subCategoryId: string;
   stockOnHand: number | undefined;
   colorId: string | undefined;
   sizeId: string | undefined;
+  saleTagId: string | undefined;
   additionalImages: ImageUploadProcessModel[];
   meta?: ItemMetaDataModel | any;
 }
@@ -25,4 +27,5 @@ export interface ItemMetaDataModel {
   quantityName: string;
   size: string;
   color: string;
+  saleTagName: string;
 }

@@ -1,9 +1,24 @@
 <div class="container mt-2">
-    <div class="columns is-multiline is-mobile">
-        <div class="column is-3"  *ngFor="let offer of (commonService.offerTagsList$ | async) | slice: 0: 4" >
+    <div class="columns is-multiline">
+        <div class="column is-4" *ngFor="let offer of (commonService.offerTagsList$ | async) | slice: 0: 4" >
             <div class="card">
-                <header class="card-header">
+                <header class="card-header sbp-header">
                     <h2 class="card-header-title">{{offer.name}}</h2>
+                  <a class="card-header-icon has-text-info" aria-label="more options">
+                  <span class="icon">
+                    <i class="mdi mdi-facebook" aria-hidden="true"></i>
+                  </span>
+                  </a>
+                  <a class="card-header-icon has-text-danger" aria-label="more options">
+                  <span class="icon">
+                    <i class="mdi mdi-instagram" aria-hidden="true"></i>
+                  </span>
+                  </a>
+                  <a class="card-header-icon has-text-success" aria-label="more options">
+                  <span class="icon">
+                    <i class="mdi mdi-whatsapp" aria-hidden="true"></i>
+                  </span>
+                  </a>
                 </header>
                 <div class="card-image">
                     <figure class="image is-4by3">
@@ -11,9 +26,18 @@
                     </figure>
                 </div>
                 <footer class="card-footer card-actions">
-                  
-                    <a [routerLink]="['/offers',offer.doc?.id]"  class="card-footer-item">SHOW DETAILS</a>
-                    <a href="#" class="card-footer-item">GRAB THE DEAL</a>
+                    <a [routerLink]="['/offers',offer.doc?.id]"  class="card-footer-item">
+                      <button class="button is-small is-info">
+                        <span> KNOW MORE </span>
+                        <span class="icon is-small"><i class="mdi mdi-eye"></i></span>
+                      </button>
+                    </a>
+                    <a href="#" class="card-footer-item">
+                      <button class="button is-small is-primary">
+                        <span>SEE ITEMS</span>
+                        <span class="icon is-small"><i class="mdi mdi-arrow-right"></i></span>
+                      </button>
+                    </a>
                 </footer>
             </div>
         </div>

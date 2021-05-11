@@ -14,12 +14,12 @@
         </a>
     </div>
 
-    <div id="navbarBasicExample" class="navbar-menu">
+    <div id="smallBusinessPortalMenuBar" class="navbar-menu">
         <div class="navbar-end">
             <div class="navbar-item" *ngIf="userLoggedIn">
-              <a routerLink="/admin/dashboard">Go to Dashboard</a>
+              <a (click)="navigateToUrl('/admin/dashboard')">Go to Dashboard</a>
             </div>
-            <div class="navbar-item has-dropdown">
+            <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
                     <span class="icon">
                         <i class="categories-icon"></i>
@@ -27,23 +27,17 @@
                     <span>Categories</span>
                 </a>
                 <div class="navbar-dropdown">
-                    <a class="navbar-item" [routerLink]="['/items-list', category.slug]"
+                    <a class="navbar-item" (click)="navigateToCategories(category)"
                        *ngFor="let category of categoriesList">
                         {{category.name}}
                     </a>
                 </div>
             </div>
-            <a class="navbar-item" routerLink="/offers">
+            <a class="navbar-item" (click)="navigateToUrl('/offers')">
                 <span class="icon">
                     <i class="offers-icon"></i>
                 </span>
                 <span> Offer Zone </span>
-            </a>
-            <a class="navbar-item">
-                <span class="icon">
-                    <i class="buy-sweets-icon"></i>
-                </span>
-                <span> Buy Sweets </span>
             </a>
             <a class="navbar-item">
                  <span class="icon">
