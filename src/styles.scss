@@ -4,7 +4,7 @@
 @import "assets/scss/fonts";
 
 body, p, a, label, button, div {
-  //font-family: 'Inter-Regular', sans-serif !important;
+  font-family: 'Inter', sans-serif !important;
 }
 
 body {
@@ -14,4 +14,11 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Inter-Bold', sans-serif !important;
+}
+
+.sbp-header > .card-header-icon {
+  padding: 0.50rem !important;
+  > .icon {
+    font-size: 25px;
+  }
 }

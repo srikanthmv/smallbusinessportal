@@ -17,7 +17,9 @@
                         </div>
                     </div>
                     <footer class="card-footer">
-                        <a href="#" class="card-footer-item button is-primary">EXPLORE</a>
+                        <a [routerLink]="['items-list']"
+                           [queryParams]="{category: category?.slug}"
+                           class="card-footer-item button is-primary">EXPLORE</a>
                     </footer>
                 </div>
             </div>

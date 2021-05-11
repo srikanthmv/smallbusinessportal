@@ -30,11 +30,9 @@ export class ItemsListComponent implements OnInit {
     this.itemsService.itemsList$.pipe(map((itemInfo) => {
       const itemData = itemInfo;
       itemData.map((item) => {
-        item.meta.status = this.itemUtilService.getItemStatus(item.status);
-        item.meta.categoryName = this.itemUtilService.getCategoryName(item.categoryId);
-        item.meta.quantityName = this.itemUtilService.getUnitName(item.baseQuantityId);
-        item.meta.size = this.itemUtilService.getSizeName(item.sizeId);
-        item.meta.color = this.itemUtilService.getColorName(item.colorId);
+        if (item) {
+          item.meta = this.itemUtilService.setMetaDataForItem(item)?.meta;
+        }
       })
       return itemData
     })).subscribe();

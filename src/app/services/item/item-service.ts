@@ -1,19 +1,15 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireStorage} from '@angular/fire/storage';
+import {Injectable} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireStorage} from '@angular/fire/storage';
 import {BehaviorSubject, Observable} from 'rxjs';
-import { map } from 'rxjs/operators';
-import { UnitsModel } from '../../models/units.model';
-import { UploadImageModel } from '../../models/upload-image.model';
+import {map} from 'rxjs/operators';
+import {UploadImageModel} from '../../models/upload-image.model';
 import {DocumentReference} from "@angular/fire/firestore/interfaces";
 import {ItemMetaDataModel, ItemModel} from "../../models/item.model";
-import {ItemUtils} from "../../utils/item-utils";
 import firebase from "firebase";
-import DocumentSnapshot = firebase.firestore.DocumentSnapshot;
 import {ItemSearchFilterModel} from "../../models/item-search-filter.model";
-import {DbCollections} from "../../db/collections";
 import {AngularFireUploadTask} from "@angular/fire/storage/task";
-import {UploadTaskSnapshot} from "@angular/fire/storage/interfaces";
+import DocumentSnapshot = firebase.firestore.DocumentSnapshot;
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +55,14 @@ export class ItemService {
     ).subscribe(data => {
       this.itemsList$.next(data);
     });
+  }
+
+  filterItemsByCategory(searchFilters: ItemSearchFilterModel) {
+   return this.db.collection('Items', ref =>
+     ref.where('categoryId', '==', searchFilters.category)
+       .where('status', '==', '200')
+       .orderBy('name')
+       .limit(searchFilters?.limit ? searchFilters?.limit : 20)
+   ).get();
   }
 }

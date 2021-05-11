@@ -13,9 +13,9 @@ const routes: Routes = [
       { path: 'offers', component: OffersListComponent,},
     {
         path:'offers/:slug',component:OfferDetailsComponent,pathMatch:'full'
-      
+
     },
-      { path: 'items-list/:category', component: ItemsListPageComponent}
+      { path: 'items-list', component: ItemsListPageComponent}
     ]
   },
   { path: 'admin', loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)},

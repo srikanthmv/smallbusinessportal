@@ -11,7 +11,8 @@
                             <div class="field is-narrow">
                                 <div class="control">
                                     <div class="select is-fullwidth">
-                                        <select [ngModel]="itemCategoryName">
+                                        <select (change)="searchByCategory()"
+                                                [(ngModel)]="categorySelected">
                                             <option [value]="''">--select--</option>
                                             <option [value]="category.slug"
                                                     *ngFor="let category of (commonService.allCategories$ | async)">
@@ -28,88 +29,55 @@
         </div>
     </div>
 </div>
-<div class="container mt-3">
-    <div class="columns">
-        <div class="column">
+<div class="container is-spaced" *ngIf="(filteredItemsList$ | async) as itemsList">
+    <div class="notification is-danger mt-3" *ngIf="!itemsList.length">
+      Oops!! There are no items to display
+    </div>
+  <div class="columns is-multiline" *ngIf="itemsList.length">
+        <div class="column is-3" *ngFor="let itemInfo of itemsList">
             <div class="card">
+              <header class="card-header sbp-header">
+                <p class="card-header-title">
+                  <span class="tag is-warning">{{ itemInfo?.meta.saleTagName }}</span>
+                </p>
+                <a class="card-header-icon has-text-info" aria-label="more options">
+                  <span class="icon">
+                    <i class="mdi mdi-facebook" aria-hidden="true"></i>
+                  </span>
+                </a>
+                <a class="card-header-icon has-text-danger" aria-label="more options">
+                  <span class="icon">
+                    <i class="mdi mdi-instagram" aria-hidden="true"></i>
+                  </span>
+                </a>
+                <a class="card-header-icon has-text-success" aria-label="more options">
+                  <span class="icon">
+                    <i class="mdi mdi-whatsapp" aria-hidden="true"></i>
+                  </span>
+                </a>
+              </header>
                 <div class="card-image">
                     <figure class="image is-4by3">
-                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                        <picture>
+                          <source [srcset]="itemInfo?.mainImageUrl" type="image/webp">
+                        </picture>
+                        <img alt="item image url" [src]="itemInfo?.mainImageUrl" loading="lazy">
                     </figure>
                 </div>
                 <div class="card-content">
-                    <div class="media">
-                        <div class="media-content">
-                            <p class="title is-4">{{'Item Name'}}</p>
-                        </div>
+                    <div class="content">
+                       <p class="heading is-bold">{{ itemInfo?.name }}</p>
+                      <h5 class="subtitle is-bold"><i class="mdi mdi-currency-inr"></i> <span class="has-text-danger-dark"
+                        style="text-decoration: line-through;" *ngIf="itemInfo?.discountedPrice"> {{ itemInfo?.price }}</span>
+                        <span> {{  itemInfo?.discountedPrice || itemInfo?.price }}</span>
+                      </h5>
                     </div>
                     <footer class="card-footer">
-                        <p class="card-footer-item has-text-weight-bold">Price: Rs 200/kg</p>
-                        <a href="#" class="card-footer-item"><button class="button is-primary">
-                            <ion-icon name="star-outline"></ion-icon> INTERESTED</button></a>
-                    </footer>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="card">
-                <div class="card-image">
-                    <figure class="image is-4by3">
-                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                    </figure>
-                </div>
-                <div class="card-content">
-                    <div class="media">
-                        <div class="media-content">
-                            <p class="title is-4">{{'Item Name'}}</p>
-                        </div>
-                    </div>
-                    <footer class="card-footer">
-                        <p class="card-footer-item has-text-weight-bold">Price: Rs 200/kg</p>
-                        <a href="#" class="card-footer-item"><button class="button is-primary">
-                            <ion-icon name="star-outline"></ion-icon> INTERESTED</button></a>
-                    </footer>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="card">
-                <div class="card-image">
-                    <figure class="image is-4by3">
-                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                    </figure>
-                </div>
-                <div class="card-content">
-                    <div class="media">
-                        <div class="media-content">
-                            <p class="title is-4">{{'Item Name'}}</p>
-                        </div>
-                    </div>
-                    <footer class="card-footer">
-                        <p class="card-footer-item has-text-weight-bold">Price: Rs 200/kg</p>
-                        <a href="#" class="card-footer-item"><button class="button is-primary">
-                            <ion-icon name="star-outline"></ion-icon> INTERESTED</button></a>
-                    </footer>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="card">
-                <div class="card-image">
-                    <figure class="image is-4by3">
-                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                    </figure>
-                </div>
-                <div class="card-content">
-                    <div class="media">
-                        <div class="media-content">
-                            <p class="title is-4">{{'Item Name'}}</p>
-                        </div>
-                    </div>
-                    <footer class="card-footer">
-                        <p class="card-footer-item has-text-weight-bold">Price: Rs 200/kg</p>
-                        <a href="#" class="card-footer-item"><button class="button is-primary">
-                            <ion-icon name="star-outline"></ion-icon> INTERESTED</button></a>
+                      <a href="#" class="has-text-primary card-footer-item"><i class="sbp-footer-icons mdi mdi-cart-plus"></i></a>
+                      <a href="#" class="has-text-primary card-footer-item"><i class="sbp-footer-icons mdi mdi-heart"></i></a>
+                      <a href="#" class="card-footer-item">
+                        <button class="button is-primary is-small">Buy now</button>
+                      </a>
                     </footer>
                 </div>
             </div>
