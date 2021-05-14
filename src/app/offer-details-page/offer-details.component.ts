@@ -13,34 +13,33 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class OfferDetailsComponent implements OnInit {
 
-  offertagObject$: BehaviorSubject<OfferTagsModel> = new BehaviorSubject<OfferTagsModel>({} as OfferTagsModel);
+  offerTagDetails$: BehaviorSubject<OfferTagsModel> = new BehaviorSubject<OfferTagsModel>({} as OfferTagsModel);
   constructor(public commonService:CommonService, private route: ActivatedRoute) { }
- 
+
   ngOnInit(): void {
-   
+
       this.commonService.getOfferTagsList();
   let slug = ''
     this.route.paramMap.subscribe(params => {
     slug = String(params.get('slug'));
-     
+
     });
     this.commonService.getoffer(slug).pipe(map((item) => {
-      const itemData = item.data() as OfferTagsModel;
-
+      let itemData = item.data() as OfferTagsModel;
+      itemData.start = new Date(itemData.start?.seconds);
+      itemData.end = new Date(itemData?.end?.seconds);
       return itemData;
     }))
       .subscribe((itemInfo) => {
-        this.offertagObject$.next(itemInfo);
-        console.log(this.offertagObject$)
+        this.offerTagDetails$.next(itemInfo);
+        console.log(this.offerTagDetails$)
       })
-  
-
   }
 
- 
-  
+
+
   // public getOfferDetails(slug:string):void{
-   
+
   // }
 
 }

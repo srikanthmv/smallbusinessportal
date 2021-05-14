@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/firestore";
 import {DbCollections} from "../../db/collections";
 import {map} from "rxjs/operators";
-import {ItemMetaDataModel, ItemModel} from "../../models/item.model";
 import {AccountModel} from "../../models/account.model";
 import {BehaviorSubject} from "rxjs";
 

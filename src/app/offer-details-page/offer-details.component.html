@@ -1,31 +1,30 @@
-<div class="container mt-2">
-    <div class="columns is-multiline is-mobile">
-        <section class="hero">
-            <div class="hero-body">
-            
-             <figure class="image is-2by2">
-                <img [src]="(offertagObject$ | async)?.bannerImageUrl">
-              </figure>
-             
-              <p class="title">
-                {{(offertagObject$ | async)?.name}}
-                <!-- {{offertagObject$?.name}} -->
-             <!-- {{offerInfo}} -->
-            </p>
-              <p class="subtitle">
-                <label>Description: </label>
-                {{(offertagObject$ | async)?.description}}
-              </p>
-            
-              <p class="subtitle">
-                <label>Offer Starts on: </label>{{(offertagObject$ | async)?.start}}
-              </p>
-              <p class="subtitle">
-                <label>Offer Ends on: </label>
-                {{(offertagObject$ | async)?.end }}
-              </p>
-            </div>
-          </section>
-
-</div>
-</div>
+<section class="hero is-medium is-info">
+  <div class="hero-body offer-body" *ngIf="(offerTagDetails$ | async) as offerDetails">
+    <div class="columns is-multiline">
+      <div class="column is-6">
+        <p class="title">
+          {{offerDetails?.name}}
+        </p>
+        <p class="subtitle">
+          <label>Offer Starts on: </label>{{offerDetails?.start | date: 'dd/mm/yyyy'}}
+        </p>
+        <p class="subtitle">
+          <label>Offer Ends on: </label>
+          {{offerDetails?.end | date: 'dd/mm/yyyy'}}
+        </p>
+        <div class="is-block">
+          <div class="content">
+            <ul>
+              <li>{{ offerDetails?.description }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="column is-6">
+        <figure class="image is-square">
+          <img [src]="offerDetails?.bannerImageUrl">
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
