@@ -5,12 +5,9 @@ import {ItemSearchFilterModel} from "../models/item-search-filter.model";
 import {ItemService} from "../services/item/item-service";
 import {Category} from "../models/category.model";
 import {BehaviorSubject} from "rxjs";
-import {ItemMetaDataModel, ItemModel} from "../models/item.model";
-import firebase from "firebase";
-import QueryDocumentSnapshot = firebase.firestore.QueryDocumentSnapshot;
-import Item = firebase.analytics.Item;
-import {FormControl} from "@angular/forms";
+import {ItemModel} from "../models/item.model";
 import {ItemUtils} from "../utils/item-utils";
+import { toast as bulmaToast } from 'bulma-toast';
 
 @Component({
   selector: 'app-items-list-page',
@@ -24,6 +21,7 @@ export class ItemsListPageComponent implements OnInit {
   categorySelected: string | undefined;
   constructor(public commonService: CommonService,
               private aRouter: ActivatedRoute,
+              private router: Router,
               private itemService: ItemService,
               public itemUtilService: ItemUtils) { }
 
@@ -67,6 +65,14 @@ export class ItemsListPageComponent implements OnInit {
         });
       }
     });
+  }
+
+  showToastMessage() {
+    bulmaToast({ message: 'Hello There' })
+  }
+
+  navigateToItemView(itemInfo: ItemModel) {
+    this.router.navigate([`item/${itemInfo?.doc?.id}`]).then();
   }
 
 }

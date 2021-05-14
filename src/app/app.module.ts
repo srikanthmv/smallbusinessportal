@@ -19,6 +19,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { DefaultComponent } from './_layouts/default/default.component';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { ItemDetailComponent } from './item-detail/item-detail.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { AngularFireStorage } from '@angular/fire/storage';
     TestimonialsComponent,
     ItemsListPageComponent,
       LoginComponent,
-      DefaultComponent
+      DefaultComponent,
+      ItemDetailComponent
   ],
     imports: [
         BrowserModule,
