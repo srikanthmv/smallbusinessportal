@@ -35,7 +35,8 @@
               "./node_modules/bulma/css/bulma.css"
             ],
             "scripts": [
-              "./node_modules/ionicons/dist/ionicons/ionicons.esm.js"
+              "./node_modules/ionicons/dist/ionicons/ionicons.esm.js",
+              "./node_modules/bulma-toast/dist/bulma-toast.min.js"
             ]
           },
           "configurations": {

@@ -56,13 +56,20 @@
                   </span>
                 </a>
               </header>
-                <div class="card-image">
-                    <figure class="image is-4by3">
+                <div class="card-image item-card">
+                    <figure (click)="navigateToItemView(itemInfo)" class="image is-4by3">
                         <picture>
                           <source [srcset]="itemInfo?.mainImageUrl" type="image/webp">
                         </picture>
                         <img alt="item image url" [src]="itemInfo?.mainImageUrl" loading="lazy">
                     </figure>
+                </div>
+                <div class="is-flex is-flex-direction-row is-justify-content-flex-end pt-3 pr-3">
+                  <a (click)="showToastMessage()" class="has-text-primary">
+                    <span class="icon is-large">
+                      <i class="mdi mdi-share" aria-hidden="true" style="font-size:24px;"></i>
+                    </span>share link
+                  </a>
                 </div>
                 <div class="card-content">
                     <div class="content">

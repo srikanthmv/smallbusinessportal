@@ -1,0 +1,306 @@
+<!-- product info -->
+<section class="section" *ngIf="(itemDetails$ | async) as itemInfo">
+  <div class="container">
+    <div class="columns is-multiline">
+      <div class="column is-6-tablet is-3-desktop">
+        <div class="is-flex is-flex-direction-column is-justify-content-center" [class]=" isMobileView ? '' : 'product-name-block-height'">
+          <h1 class="is-size-5-mobile is-size-4-desktop title">{{ itemInfo?.name }}</h1>
+          <h2 class="is-size-6-mobile is-size-5-desktop subtitle">
+            {{ 'color :' + itemInfo?.meta?.color }} {{ 'size :' + itemInfo?.meta?.size }}</h2>
+          <p>{{ itemInfo?.description }}</p>
+        </div>
+      </div>
+      <div class="column is-6-tablet is-5-desktop has-text-centered">
+        <figure class="image is-1by1">
+          <img [src]="itemInfo.mainImageUrl" alt="docker coffee image" class="px-6">
+        </figure>
+      </div>
+      <div class="column is-12-tablet is-4-desktop">
+        <div class="is-flex is-flex-direction-column is-justify-content-space-between" [class]="isMobileView ? '' : 'item-actions-block-height'">
+          <div class="is-flex is-flex-direction-row is-justify-content-flex-end">
+            <div class="p-3">
+              <span class="icon-text">
+                <span class="icon is-size-4 mr-3">
+                  <i class="mdi mdi-cards-heart"></i>
+                </span>
+                <span class="icon is-size-4">
+                  <i class="mdi mdi-share-all"></i>
+                </span>
+              </span>
+            </div>
+          </div>
+          <div class="is-size-4 mb-4">
+            <i class="mdi mdi-currency-inr"></i>
+            <span class="has-text-danger-dark"style="text-decoration: line-through;"
+                  *ngIf="itemInfo?.discountedPrice"> {{ itemInfo?.price }}</span>
+            <span> {{  itemInfo?.discountedPrice || itemInfo?.price }}</span>
+            <p class="mb-4 is-size-6">
+            <span class="icon-text">
+              <span class="icon is-size-5">
+                <i class="mdi mdi-truck-delivery-outline"></i>
+              </span>
+            </span>
+              Standard delivery <strong>7-14</strong> days.
+            </p>
+            <div class="field has-addons">
+              <div class="control">
+                <input class="input" type="text" placeholder="Enter pincode">
+              </div>
+              <div class="control">
+                <a class="button is-info">
+                  check
+                </a>
+              </div>
+            </div>
+            <div class="mb-4">
+              <span class="icon-text has-text-warning is-size-6">
+                <span class="icon">
+                  <i class="mdi mdi-star"></i>
+                </span>
+                <span class="icon">
+                  <i class="mdi mdi-star"></i>
+                </span>
+                <span class="icon">
+                  <i class="mdi mdi-star"></i>
+                </span>
+                <span class="icon">
+                  <i class="mdi mdi-star-outline"></i>
+                </span>
+                <span class="icon">
+                  <i class="mdi mdi-star-outline"></i>
+                </span>
+              </span>
+              <a class="is-size-6">see reviews</a>
+            </div>
+            <a class="is-size-6">See more about the product</a>
+          </div>
+          <div class="is-flex flex-direction-row is-justify-content-start">
+            <div class="buttons">
+              <button class="button is-info">
+                <span class="is-size-5"><i class="mdi mdi-cart-plus"></i>
+                </span> Add to cart
+              </button>
+              <button class="button is-success">
+                <span class="is-size-5"><i class="mdi mdi-cash-check"></i>
+                </span>
+                Buy now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="columns">
+    <div class="column">
+      <article class="panel is-link has-background-white">
+        <p class="panel-heading">
+          <span class="is-size-4 mr-2"><i class="mdi mdi-information-outline"></i></span>Prodcut Information
+        </p>
+        <a class="panel-block">
+          <span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+        </a>
+        <a class="panel-block">
+          <span> ipsum dolor sit amet consectetur adipisicing elit.</span>
+        </a>
+        <a class="panel-block">
+          <span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+        </a>
+        <a class="panel-block">
+          <span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+        </a>
+      </article>
+    </div>
+    <div class="column">
+      <article class="panel is-primary has-background-white">
+        <p class="panel-heading">
+          <span class="is-size-4 mr-2"><i class="mdi mdi-truck-fast-outline"></i></span>Packing & Delivery
+        </p>
+        <a class="panel-block">
+          <span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+        </a>
+        <a class="panel-block">
+          <span> ipsum dolor sit amet consectetur adipisicing elit.</span>
+        </a>
+        <a class="panel-block">
+          <span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+        </a>
+        <a class="panel-block">
+          <span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="notification is-info">
+    <h5 class="is-size-5"><i class="mdi mdi-account-circle-outline mr-2"></i>Customer reviews</h5>
+  </div>
+  <div class="columns is-multiline">
+    <div class="column">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-size-7">
+            <span class="icon">
+              <i class="mdi mdi-account-reactivate-outline"></i>
+            </span>customer name
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-size-7">
+            <span class="icon">
+              <i class="mdi mdi-account-reactivate-outline"></i>
+            </span>customer name
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-size-7">
+            <span class="icon">
+              <i class="mdi mdi-account-reactivate-outline"></i>
+            </span>customer name
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-size-7">
+            <span class="icon">
+              <i class="mdi mdi-account-reactivate-outline"></i>
+            </span>customer name
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-size-7">
+            <span class="icon">
+              <i class="mdi mdi-account-reactivate-outline"></i>
+            </span>customer name
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-size-7">
+            <span class="icon">
+              <i class="mdi mdi-account-reactivate-outline"></i>
+            </span>customer name
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-size-7">
+            <span class="icon">
+              <i class="mdi mdi-account-reactivate-outline"></i>
+            </span>customer name
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-size-7">
+            <span class="icon">
+              <i class="mdi mdi-account-reactivate-outline"></i>
+            </span>customer name
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-size-7">
+            <span class="icon">
+              <i class="mdi mdi-account-reactivate-outline"></i>
+            </span>customer name
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-size-7">
+            <span class="icon">
+              <i class="mdi mdi-account-reactivate-outline"></i>
+            </span>customer name
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
