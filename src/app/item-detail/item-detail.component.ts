@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ItemService} from "../services/item/item-service";
-import {BehaviorSubject, Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {ItemModel} from "../models/item.model";
 import {map} from "rxjs/operators";
 import {ItemUtils} from "../utils/item-utils";
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import {GalleryItem, ImageItem} from "ng-gallery";
 
 @Component({
   selector: 'app-item-detail',
@@ -14,6 +15,7 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 })
 export class ItemDetailComponent implements OnInit {
   itemDetails$: BehaviorSubject<ItemModel> = new BehaviorSubject<ItemModel>({} as ItemModel);
+  itemImages$: BehaviorSubject<GalleryItem[]> = new BehaviorSubject<GalleryItem[]>([]);
   isMobileView = false;
   constructor(private activatedRoute: ActivatedRoute,
               private itemService: ItemService,
@@ -44,7 +46,25 @@ export class ItemDetailComponent implements OnInit {
     }))
       .subscribe((itemInfo) => {
         this.itemDetails$?.next(itemInfo);
+        this.setItemImagesToSlider(itemInfo);
       })
+  }
+
+  setItemImagesToSlider(itemInfo: ItemModel) {
+    let itemImages: GalleryItem[] = [];
+    if (itemInfo.additionalImages.length) {
+      itemInfo.additionalImages.forEach((imageInfo) => {
+        itemImages.push(
+          new ImageItem({
+            src: imageInfo.imageUrl,
+            type: 'image',
+            thumb: imageInfo.imageUrl
+          }))
+      })
+      this.itemImages$.next(itemImages as GalleryItem[]);
+    } else {
+      this.itemImages$.next([new ImageItem({src: itemInfo.mainImageUrl, type: 'image'})])
+    }
   }
 
 }

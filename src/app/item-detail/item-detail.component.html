@@ -10,10 +10,12 @@
           <p>{{ itemInfo?.description }}</p>
         </div>
       </div>
-      <div class="column is-6-tablet is-5-desktop has-text-centered">
-        <figure class="image is-1by1">
-          <img [src]="itemInfo.mainImageUrl" alt="docker coffee image" class="px-6">
-        </figure>
+      <div class="column is-6-tablet is-5-desktop" *ngIf="(itemImages$ | async) as itemGallery">
+        <gallery style="background-color: unset" [items]="itemGallery"
+                 [thumbPosition]="'bottom'"
+                 loadingStrategy="lazy" *ngIf="itemGallery.length > 1"></gallery>
+        <gallery style="background-color: unset" [items]="itemGallery" [thumb]="false"
+                 loadingStrategy="lazy" *ngIf="itemGallery.length === 1"></gallery>
       </div>
       <div class="column is-12-tablet is-4-desktop">
         <div class="is-flex is-flex-direction-column is-justify-content-space-between" [class]="isMobileView ? '' : 'item-actions-block-height'">

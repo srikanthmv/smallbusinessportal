@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { SlideShowComponent } from './slide-show/slide-show.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { NgSimpleCarouselModule } from 'ng-simple-carousel';
 import { CategoriesBlockComponent } from './categories-block/categories-block.component';
 import { OffersListComponent } from './offers-list/offers-list.component';
 import { OfferDetailsComponent } from './offer-details-page/offer-details.component';
@@ -20,7 +19,8 @@ import { LoginComponent } from './login/login.component';
 import { DefaultComponent } from './_layouts/default/default.component';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { ItemDetailComponent } from './item-detail/item-detail.component';
-
+import { GalleryModule} from "ng-gallery";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -40,11 +40,12 @@ import { ItemDetailComponent } from './item-detail/item-detail.component';
     imports: [
         BrowserModule,
         AppRoutingModule,
-        NgSimpleCarouselModule,
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFireDatabaseModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        GalleryModule
     ],
   providers: [AngularFireStorage],
   bootstrap: [AppComponent],

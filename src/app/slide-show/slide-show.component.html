@@ -1,6 +1,3 @@
 <div class="container p-3">
-    <div class="wrap_carousel">
-        <ng-simple-carousel-with-button [images]="images" [controller]="controllerButton">
-        </ng-simple-carousel-with-button>
-    </div>
+  <gallery [imageSize]="'cover'" [thumb]="false" [loadingStrategy]="'lazy'" [items]="offerImages!"></gallery>
 </div>
