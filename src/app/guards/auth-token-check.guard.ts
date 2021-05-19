@@ -12,7 +12,7 @@ export class AuthTokenCheckGuard implements CanActivate, CanActivateChild {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      return this.userService.isUserLoggedIn() ? true : this.router.navigate(['/admin/login']);
+      return this.userService.isUserLoggedIn() ? true : this.router.navigate(['/admin/admin-login']);
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot):
@@ -20,7 +20,7 @@ export class AuthTokenCheckGuard implements CanActivate, CanActivateChild {
         if (this.userService.isUserLoggedIn()) {
           return true;
         } else{
-          this.router.navigate(['/admin/login']);
+          this.router.navigate(['/admin/admin-login']);
           return false;
         }
   }

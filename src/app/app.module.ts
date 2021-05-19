@@ -15,12 +15,13 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import {environment} from '../environments/environment';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { LoginComponent } from './login/login.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { DefaultComponent } from './_layouts/default/default.component';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { ItemDetailComponent } from './item-detail/item-detail.component';
 import { GalleryModule} from "ng-gallery";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -33,9 +34,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     OfferDetailsComponent,
     TestimonialsComponent,
     ItemsListPageComponent,
-      LoginComponent,
+      AdminLoginComponent,
       DefaultComponent,
-      ItemDetailComponent
+      ItemDetailComponent,
+      LoginComponent
   ],
     imports: [
         BrowserModule,

@@ -25,7 +25,7 @@ export class AdminHeaderComponent implements OnInit {
 
   logout() {
     this.authService.logoutAdmin().then(() => {
-      this.router.navigate(['/admin/login']);
+      this.router.navigate(['/admin/admin-login']);
     })
   }
 

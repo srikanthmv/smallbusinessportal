@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomePageComponent} from '../../home-page/home-page.component';
 import {OffersListComponent} from '../../offers-list/offers-list.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import { LoginComponent } from 'src/app/login/login.component';
+import { AdminLoginComponent } from 'src/app/admin-login/admin-login.component';
 import { LoginAuthGuardCheck } from 'src/app/guards/login-auth-check.guard';
 import { AuthTokenCheckGuard } from 'src/app/guards/auth-token-check.guard';
 import { ItemsListComponent } from './items-list/items-list.component';
@@ -18,7 +18,7 @@ const routes: Routes = [
       {path: 'items-list', component: ItemsListComponent},
       {path: 'store-action', component: StoreTasksComponent}
     ]},
-    {path: 'login', component: LoginComponent}
+    {path: 'admin-login', component: AdminLoginComponent}
 ];
 
 @NgModule({
