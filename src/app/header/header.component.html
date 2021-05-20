@@ -5,7 +5,7 @@
                  [src]="accountInfo?.logo"
                  width="120"
                  height="100"
-                 style="max-height: 10rem;">
+                 style="max-height: 10rem;" *ngIf="accountInfo?.logo">
         </a>
         <a role="button" (click)="toggleNavBar()" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
